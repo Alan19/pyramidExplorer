@@ -15,8 +15,8 @@ Cave Explorer with a retro text adventure theme
 
 -Games:
 	-Minesweeper -- Unstable floor = mines, throw rocks to determine weak points
-    -Joseph & Alan
+	    -Joseph & Alan
 	-Magic Square -- puzzle on door, opens upon solving
-    -Samuel & Eduardo
+	    -Samuel & Eduardo
 	-Battleship -- battleship except with bugs
-    -Ahmed & Javiy
+	    -Ahmed & Javiy
