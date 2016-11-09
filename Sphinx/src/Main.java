@@ -1,8 +1,6 @@
 
 public class Main {
 	
-	private static int test;
-
 	public Main() {
 		
 	}
