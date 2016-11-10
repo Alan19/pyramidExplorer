@@ -1,5 +1,6 @@
 map generation:
   Hardcode certain rooms, randomly generate the path between them
+    Possible idea for large map: every room around hardcoded rooms should randomly be connected. then generate shortest path between each room 
   Which rooms are events are randomly generated
 
 win method!
