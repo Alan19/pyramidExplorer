@@ -1,0 +1,10 @@
+map generation:
+  Hardcode certain rooms, randomly generate the path between them
+  Which rooms are events are randomly generated
+
+win method!
+  There is an end point. When the user finds this, they win
+
+method to lock all doors
+
+start event method
