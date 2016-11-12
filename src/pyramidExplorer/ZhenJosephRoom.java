@@ -21,7 +21,25 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 		String[][] unrevealedTiles = new String[fieldSize][fieldSize];
 		plantMines(mines);
 		
-		getNonNegativeIntegerInput();
+		while(true){
+			CaveExplorer.print("Which row would you like to check?");
+			int row = getNonNegativeIntegerInput();
+			
+			CaveExplorer.print("Which column would you like to check?");
+			int col = getNonNegativeIntegerInput();
+			
+			if(mines[row][col]){
+				CaveExplorer.print("The ground collapses!");
+				break;
+			}
+			else if (!revealedTiles[row][col]) {
+				CaveExplorer.print("That tile is already revealed");
+			}
+			else{
+				revealedTiles[row][col] = true;
+				updateTiles(tileValues, unrevealedTiles);
+			}
+		}
 		
 	}
 	
