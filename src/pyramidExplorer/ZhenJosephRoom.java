@@ -43,6 +43,11 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 		
 	}
 	
+	private void updateTiles(String[][] tileValues, String[][] unrevealedTiles) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private static int getNonNegativeIntegerInput() {
 		System.out.println("Please enter an non-negative integer.");
 		String integerString = CaveExplorer.in.nextLine();
