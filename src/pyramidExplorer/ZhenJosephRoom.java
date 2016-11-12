@@ -1,7 +1,8 @@
 package pyramidExplorer;
 
 public class ZhenJosephRoom extends CaveRoomPd8 {
-
+	private static int fieldSize = 10;
+	
 	public ZhenJosephRoom(String description) {
 		super(description);
 		// TODO Auto-generated constructor stub
@@ -14,7 +15,6 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 	}
 	
 	public void play(){
-		int fieldSize = 10;
 		boolean[][] revealedTiles = new boolean [fieldSize][fieldSize];
 		boolean[][] mines = new boolean[fieldSize][fieldSize];
 		String[][] tileValues = new String[fieldSize][fieldSize];
@@ -59,7 +59,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 				value = Integer.parseInt(integerString);
 				//will not continue if an error above is thrown
 				isInteger = true;//exits loop if entry is valid
-				if(value < 0){
+				if(value < 0 || value > fieldSize){
 					isPositive = false;
 					CaveExplorer.print("You must enter an non-negative integer.");
 					integerString = CaveExplorer.in.nextLine();
