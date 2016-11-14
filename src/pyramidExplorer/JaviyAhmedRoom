@@ -2,28 +2,37 @@ package pyramidExplorer;
 
 import java.util.Arrays;
 
-public class JaviyAhmedRoom extends CaveRoomPd8 {
+public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 	
 	private int[][] playerBoard;
 	private int[][] compBoard;
 	private String[][] playerBoardString;
 	private String[][] compBoardString;
-	
-	private static final int BOAT1 = 1;
-	private static final int BOAT2 = 2;
-	private static final int BOAT3 = 3;
-	private static final int BOAT4 = 4;
-	private static final int BOAT5 = 5;
-	private static final int BOAT6 = 6;
+	private boolean checkWin = false;
 	
 
 	public JaviyAhmedRoom(String description) {
 		super(description);
-		setBoards();
 	}
 	
+	public void play() {
+		setBasicBoards();
+		setBasicBoards();
+		print(playerBoardString);
+		while(!checkWin) //checkWin method that'll return a boolean
+			playGame();
+	}
 	
-	private void setBoards() {
+	private void playGame() {
+		//This is just like the chatbot playing with a computer putting in coordinates to hit or miss
+		//Use a helper method to check if it was a hit or miss 
+		//Depending on that you redraw the boards accordingly
+	}
+
+	//0 means nothing 1 means miss 2 means hit and 3 means theres a boat there
+	private void setBasicBoards() {
+		int[] boatArray = {2,3,4,5,6};
+		int[] directions = {1,2,3,4};
 		playerBoard = new int[10][10];
 		compBoard = new int[10][10];
 		
@@ -39,19 +48,63 @@ public class JaviyAhmedRoom extends CaveRoomPd8 {
 					playerBoardString[row][col] = "[ ]";
 				}else if(playerBoard[row][col] == 1){
 					playerBoardString[row][col] = "[O]";
-				}else{
+				}else if(playerBoard[row][col] == 2){
 					playerBoardString[row][col] = "[X]";
+				}else{
+					playerBoardString[row][col] = "   ";
 				}
 			}
 		}
 		
-		for(String[] row:playerBoardString){
-			for(String col:row){
-				System.out.println(col);
-			}
-		}
+		
+		//This is just for the player
+		setPlayerBoard(directions,boatArray);
+		setCompBoard(directions,boatArray);
+		
 	}
 
+	
+	
+
+
+
+private void setCompBoard(int[] directions, int[] boatArray) {
+	for(int i=0;i<5;i++){
+		int randomDirection = directions[(int)(Math.random()*3+1)];
+		putInRandomDirection(playerBoard,randomDirection,boatArray[i]);
+	}
+}
+
+
+private void setPlayerBoard(int[] directions,int[] boatArray) {
+	for(int i=0;i<5;i++){
+		int randomDirection = directions[(int)(Math.random()*3+1)];
+		putInRandomDirection(playerBoard,randomDirection,boatArray[i]);
+	}
+}
+
+
+private void putInRandomDirection(int[][] playerBoardString, int randomDirection, int boatLength) {
+	boatLength--;
+	int randomOne = (int)(Math.random()*9+1);
+	int randomTwo = (int)(Math.random()*9+1);
+	playerBoardString[randomOne][randomTwo] = 3;
+	if(randomDirection==1){
+		//NORTH
+		for(int i=0;i<boatLength;i++){
+			//This method with stop the for loop if the piece goes off board or hits another piece
+			//Use two if conditions and a while loop to do this
+			int boatLength1 = boatLength;
+			while(boatLength>0){
+				if(randomOne-i>0 && randomOne-i<playerBoard[0].length && playerBoard[randomOne-i][randomTwo] !=3){
+					playerBoard[randomOne-i][randomTwo] = 3;
+					boatLength1--;
+				}
+			}
+		}
+	}//cut out code
+}
+	
 	public void enter(){
 		super.enter();
 		System.out.println(" ");
@@ -86,5 +139,14 @@ public class JaviyAhmedRoom extends CaveRoomPd8 {
 		}
 		return false;
 	}
+	
 
+	private void print(Object[][] arr){
+		for(Object[] row:arr){
+			for(Object col:row){
+				System.out.print(col);
+			}
+			System.out.println();
+		}
+	}
 }
