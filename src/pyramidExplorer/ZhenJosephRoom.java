@@ -42,6 +42,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 			}
 			else{
 				revealedTiles[row][col] = true;
+				//Use update tiles on each of the tiles around it
 				updateTiles(tileValues, unrevealedTiles);
 			}
 		}
@@ -49,9 +50,6 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 	}
 	
 	private void updateTiles(String[][] tileValues, String[][] unrevealedTiles) {
-		if(){
-			
-		}
 		
 	}
 
