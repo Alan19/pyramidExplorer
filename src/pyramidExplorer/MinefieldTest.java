@@ -1,60 +1,53 @@
 package pyramidExplorer;
 
-public class ZhenJosephRoom extends CaveRoomPd8 {
-	private static int fieldSize = 10;
-	
-	public ZhenJosephRoom(String description) {
-		super(description);
-		// TODO Auto-generated constructor stub
-	}
+public class MinefieldTest {
 
-	public void enter(){
-		super.enter();
-		System.out.println("You are trapped in this room! \nYou see that the floor might crumble if you step on certain tiles.\nIn order to know where to step, throw these rocks on the tiles to see where the floor can collaspe.");
-		
-	}
+	private static int fieldSize = 5;
 	
-	public void play(){
+	public static void main(String[] args) {
 		boolean[][] revealedTiles = new boolean [fieldSize][fieldSize];
 		boolean[][] mines = new boolean[fieldSize][fieldSize];
 		String[][] tileValues = new String[fieldSize][fieldSize];
 		String[][] unrevealedTiles = new String[fieldSize][fieldSize];
-		plantMines(mines, 10);
+		plantMines(mines, 3);
 		for (int row = 0; row < tileValues.length; row++) {
 			for (int col = 0; col < tileValues[row].length; col++) {
-				tileValues[row][col] = countNearby(mines, row, col);
+				if(mines[row][col]) tileValues[row][col] = "X";
+				else tileValues[row][col] = countNearby(mines, row, col);
 			}
 		}
-		
-		while(true){
-			CaveExplorer.print("Which row would you like to check?");
-			int row = getNonNegativeIntegerInput();
-			
-			CaveExplorer.print("Which column would you like to check?");
-			int col = getNonNegativeIntegerInput();
-			
-			if(mines[row][col]){
-				CaveExplorer.print("The ground collapses!");
-				break;
-			}
-			else if (!revealedTiles[row][col]) {
-				CaveExplorer.print("That tile is already revealed");
-			}
-			else{
-				revealedTiles[row][col] = true;
-				updateTiles(tileValues, unrevealedTiles);
-			}
-		}
+		printPic(tileValues);
+//		while(true){
+//			CaveExplorer.print("Which row would you like to check?");
+//			int row = getNonNegativeIntegerInput();
+//			
+//			CaveExplorer.print("Which column would you like to check?");
+//			int col = getNonNegativeIntegerInput();
+//			
+//			if(mines[row][col]){
+//				CaveExplorer.print("The ground collapses!");
+//				break;
+//			}
+//			else if (!revealedTiles[row][col]) {
+//				CaveExplorer.print("That tile is already revealed");
+//			}
+//			else{
+//				revealedTiles[row][col] = true;
+//				updateTiles(tileValues, unrevealedTiles);
+//			}
+//		}
 
+	}
+
+	public static void printPic(String[][] pic){
+		for (String[] row : pic) {
+			for (String col : row) {
+				System.out.print(col);
+			}
+			System.out.println();
+		}
 	}
 	
-	private void updateTiles(String[][] tileValues, String[][] unrevealedTiles) {
-		if(){
-			
-		}
-		
-	}
-
 	private static int getNonNegativeIntegerInput() {
 		System.out.println("Please enter an non-negative integer.");
 		String integerString = CaveExplorer.in.nextLine();
@@ -108,8 +101,8 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 		return "" + count;
 	}
 
-	private static int isValidAndTrue(boolean[][] mines, int row, int col) {
-		if (row >= 0 && col >= 0 && row < mines.length && col < mines[0].length && mines[row][col]){
+	private static int isValidAndTrue(boolean[][] mines, int i, int j) {
+		if (i >= 0 && j >= 0 && i < mines.length && j < mines[0].length && mines[i][j]){
 			return 1;
 		}
 		else{
