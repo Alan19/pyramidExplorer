@@ -6,4 +6,7 @@ public class SolveMagicSquareSam {
 		// TODO Auto-generated constructor stub
 	}
 
+	public static void check () {
+		
+	}
 }
