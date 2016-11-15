@@ -14,8 +14,8 @@ public class EventEduardoAndSam {
 	
 	public void play() {
 		readSequence(SEQUENCE_1);
-		CreateMagicSquareEduardo.createMagicSquare();
-		SolveMagicSquareSam.solveMagicSquare();
+		MagicSquareEduardo magicSquare = new MagicSquareEduardo();
+		SolveMagicSquareSam.check(magicSquare);
 		readSequence(SEQUENCE_2);
 		CaveExplorer.inventory.setHasMap(true);
 	}
