@@ -2,18 +2,17 @@ package pyramidExplorer;
 
 public class MinefieldTest {
 
-	private static int fieldSize = 5;
+	private static int fieldSize = 8;
 	
 	public static void main(String[] args) {
 		boolean[][] revealedTiles = new boolean [fieldSize][fieldSize];
 		boolean[][] mines = new boolean[fieldSize][fieldSize];
 		String[][] tileValues = new String[fieldSize][fieldSize];
 		String[][] unrevealedTiles = new String[fieldSize][fieldSize];
-		plantMines(mines, 3);
+		plantMines(mines, 9);
 		for (int row = 0; row < tileValues.length; row++) {
 			for (int col = 0; col < tileValues[row].length; col++) {
-				if(mines[row][col]) tileValues[row][col] = "X";
-				else tileValues[row][col] = countNearby(mines, row, col);
+				tileValues[row][col] = countNearby(mines, row, col);
 			}
 		}
 		printPic(tileValues);
@@ -90,15 +89,20 @@ public class MinefieldTest {
 		int count = 0;
 //		
 		//This method allows you to be most specific. For example, you only want north and east
-		count += isValidAndTrue(mines, row+1, col);
-		count += isValidAndTrue(mines, row-1, col);
-		count += isValidAndTrue(mines, row, col-1);
-		count += isValidAndTrue(mines, row, col+1);
-		count += isValidAndTrue(mines, row+1, col-1);
-		count += isValidAndTrue(mines, row-1, col+1);
-		count += isValidAndTrue(mines, row+1, col+1);
-		count += isValidAndTrue(mines, row-1, col-1);
-		return "" + count;
+		if(mines[row][col]){
+			return "X";
+		}
+		else{
+			count += isValidAndTrue(mines, row+1, col);
+			count += isValidAndTrue(mines, row-1, col);
+			count += isValidAndTrue(mines, row, col-1);
+			count += isValidAndTrue(mines, row, col+1);
+			count += isValidAndTrue(mines, row+1, col-1);
+			count += isValidAndTrue(mines, row-1, col+1);
+			count += isValidAndTrue(mines, row+1, col+1);
+			count += isValidAndTrue(mines, row-1, col-1);
+			return "" + count;
+		}
 	}
 
 	private static int isValidAndTrue(boolean[][] mines, int i, int j) {

@@ -1,7 +1,11 @@
 package pyramidExplorer;
 
 public class ZhenJosephRoom extends CaveRoomPd8 {
-	private static int fieldSize = 10;
+	private static int fieldSize = 12;
+	private boolean[][] revealedTiles = new boolean [fieldSize][fieldSize];
+	private boolean[][] mines = new boolean[fieldSize][fieldSize];
+	private String[][] tileValues = new String[fieldSize][fieldSize];
+	private String[][] unrevealedTiles = new String[fieldSize][fieldSize];
 	
 	public ZhenJosephRoom(String description) {
 		super(description);
@@ -15,10 +19,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 	}
 	
 	public void play(){
-		boolean[][] revealedTiles = new boolean [fieldSize][fieldSize];
-		boolean[][] mines = new boolean[fieldSize][fieldSize];
-		String[][] tileValues = new String[fieldSize][fieldSize];
-		String[][] unrevealedTiles = new String[fieldSize][fieldSize];
+		
 		plantMines(mines, 10);
 		for (int row = 0; row < tileValues.length; row++) {
 			for (int col = 0; col < tileValues[row].length; col++) {
@@ -43,14 +44,19 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 			else{
 				revealedTiles[row][col] = true;
 				//Use update tiles on each of the tiles around it
-				updateTiles(tileValues, unrevealedTiles);
+				updateTiles(mines, tileValues, unrevealedTiles, row, col);
 			}
 		}
 
 	}
 	
-	private void updateTiles(String[][] tileValues, String[][] unrevealedTiles) {
-		
+	private void updateTiles(boolean[][] mines, String[][] tileValues, String[][] unrevealedTiles, int row, int col) {
+		for (int i = row-1; i < row+2; i++) {
+			for (int j = col-1; j < col+2; j++) {
+				if(isValidTile(mines, i, j) && tileValues[i][j] == "0" && !revealedTiles[i][j]) updateTiles(mines, tileValues, unrevealedTiles, i, j);
+				else if (isValidTile(mines, i, j)) revealedTiles[i][j] = true;
+			}
+		}
 	}
 
 	private static int getNonNegativeIntegerInput() {
@@ -95,15 +101,20 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 		int count = 0;
 //		
 		//This method allows you to be most specific. For example, you only want north and east
-		count += isValidAndTrue(mines, row+1, col);
-		count += isValidAndTrue(mines, row-1, col);
-		count += isValidAndTrue(mines, row, col-1);
-		count += isValidAndTrue(mines, row, col+1);
-		count += isValidAndTrue(mines, row+1, col-1);
-		count += isValidAndTrue(mines, row-1, col+1);
-		count += isValidAndTrue(mines, row+1, col+1);
-		count += isValidAndTrue(mines, row-1, col-1);
-		return "" + count;
+		if(mines[row][col]){
+			return "X";
+		}
+		else{
+			count += isValidAndTrue(mines, row+1, col);
+			count += isValidAndTrue(mines, row-1, col);
+			count += isValidAndTrue(mines, row, col-1);
+			count += isValidAndTrue(mines, row, col+1);
+			count += isValidAndTrue(mines, row+1, col-1);
+			count += isValidAndTrue(mines, row-1, col+1);
+			count += isValidAndTrue(mines, row+1, col+1);
+			count += isValidAndTrue(mines, row-1, col-1);
+			return "" + count;
+		}
 	}
 
 	private static int isValidAndTrue(boolean[][] mines, int row, int col) {
@@ -112,6 +123,15 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 		}
 		else{
 			return 0;
+		}
+	}
+	
+	private static boolean isValidTile(boolean[][] mines, int row, int col) {
+		if(row >= 0 && col >= 0 && row < mines.length && col < mines[0].length){
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 }
