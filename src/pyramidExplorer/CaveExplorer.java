@@ -47,6 +47,8 @@ public class CaveExplorer {
 		System.out.println(text);
 	}
 	
-	
+	public static void deleteAllConnections(){
+		
+	}
 
 }

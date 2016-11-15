@@ -53,7 +53,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 	private void updateTiles(boolean[][] mines, String[][] tileValues, String[][] unrevealedTiles, int row, int col) {
 		for (int i = row-1; i < row+2; i++) {
 			for (int j = col-1; j < col+2; j++) {
-				if(isValidTile(mines, i, j) && tileValues[i][j] == "0") updateTiles(mines, tileValues, unrevealedTiles, i, j);
+				if(isValidTile(mines, i, j) && tileValues[i][j] == "0" && !revealedTiles[i][j]) updateTiles(mines, tileValues, unrevealedTiles, i, j);
 				else if (isValidTile(mines, i, j)) revealedTiles[i][j] = true;
 			}
 		}
