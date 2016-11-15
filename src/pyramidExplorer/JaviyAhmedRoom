@@ -1,14 +1,15 @@
 package pyramidExplorer;
 
-import java.util.Arrays;
 
 public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 	
-	private int[][] playerBoard;
-	private int[][] compBoard;
-	private String[][] playerBoardString;
-	private String[][] compBoardString;
-	private boolean checkWin = false;
+	private static int[][] playerBoard;
+	private static int[][] compBoard;
+	private static String[][] playerBoardString;
+	private static String[][] compBoardString;
+	private static boolean checkWin = false;
+	private static int[] boatArray = {1,2,3,4,5};
+	private static int[] directions = {1,2}; //1 for NORTH/SOUTH and 2 for EAST/WEST
 	
 
 	public JaviyAhmedRoom(String description) {
@@ -16,8 +17,16 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 	}
 	
 	public void play() {
-		setBasicBoards();
-		setBasicBoards();
+		playerBoard = new int[10][10];
+		compBoard = new int[10][10];
+		
+		playerBoardString = new String[10][10];
+		compBoardString = new String[10][10];
+		
+		//For player. Initializes the board w/ boats
+		setPlayerBoard();
+//		setCompBoard();
+		updateBoards();
 		print(playerBoardString);
 		while(!checkWin) //checkWin method that'll return a boolean
 			playGame();
@@ -30,81 +39,100 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 	}
 
 	//0 means nothing 1 means miss 2 means hit and 3 means theres a boat there
-	private void setBasicBoards() {
-		int[] boatArray = {2,3,4,5,6};
-		int[] directions = {1,2,3,4};
-		playerBoard = new int[10][10];
-		compBoard = new int[10][10];
-		
-		playerBoardString = new String[10][10];
-		compBoardString = new String[10][10];
-		
-//		for(int a = 0;a<playerBoardString[0].length;a++){
-//			playerBoardString[0][a] = "A"+(a+1)+".";
-//		}
+	private void updateBoards() {
 		for(int row = 0;row<playerBoardString.length;row++){
 			for(int col = 0;col<playerBoardString[0].length;col++){
-				if(playerBoard[row][col] == 0){
+				if(playerBoard[row][col] == 0 || playerBoard[row][col] == 4){
 					playerBoardString[row][col] = "[ ]";
 				}else if(playerBoard[row][col] == 1){
 					playerBoardString[row][col] = "[O]";
 				}else if(playerBoard[row][col] == 2){
 					playerBoardString[row][col] = "[X]";
-				}else{
-					playerBoardString[row][col] = "   ";
+				}else if(playerBoard[row][col] == 3){
+					playerBoardString[row][col] = "[S]";
 				}
 			}
 		}
-		
-		
-		//This is just for the player
-		setPlayerBoard(directions,boatArray);
-		setCompBoard(directions,boatArray);
-		
 	}
 
+	private void setCompBoard() {
+		for(int i=0;i<5;i++){
+			int randomDirection = directions[(int)(Math.random()*directions.length)];
+			putInRandomDirection(randomDirection,boatArray[i]);
+		}
+	}
 	
 	
-
-
-
-private void setCompBoard(int[] directions, int[] boatArray) {
-	for(int i=0;i<5;i++){
-		int randomDirection = directions[(int)(Math.random()*3+1)];
-		putInRandomDirection(playerBoard,randomDirection,boatArray[i]);
+	private void setPlayerBoard() {
+		for(int i=0;i<5;i++){
+			int randomDirection = directions[(int)(Math.random()*directions.length)];
+			putInRandomDirection(randomDirection,boatArray[i]);
+		}
 	}
-}
 
-
-private void setPlayerBoard(int[] directions,int[] boatArray) {
-	for(int i=0;i<5;i++){
-		int randomDirection = directions[(int)(Math.random()*3+1)];
-		putInRandomDirection(playerBoard,randomDirection,boatArray[i]);
-	}
-}
-
-
-private void putInRandomDirection(int[][] playerBoardString, int randomDirection, int boatLength) {
-	boatLength--;
-	int randomOne = (int)(Math.random()*9+1);
-	int randomTwo = (int)(Math.random()*9+1);
-	playerBoardString[randomOne][randomTwo] = 3;
-	if(randomDirection==1){
-		//NORTH
-		for(int i=0;i<boatLength;i++){
-			//This method with stop the for loop if the piece goes off board or hits another piece
-			//Use two if conditions and a while loop to do this
-			int boatLength1 = boatLength;
-			while(boatLength>0){
-				if(randomOne-i>0 && randomOne-i<playerBoard[0].length && playerBoard[randomOne-i][randomTwo] !=3){
+	//This method with stop the for loop if the piece goes off board or hits another piece
+	//Use two if conditions and a while loop to do this
+	private void putInRandomDirection(int randomDirection, int boatLength) {
+		int randomOne = 0; 
+		int randomTwo = 0;
+		while(true){
+			randomOne = (int)(Math.random()*10);
+			randomTwo = (int)(Math.random()*10);
+			if(playerBoard[randomOne][randomTwo] < 3){
+				break;
+			}
+		}
+		if(randomDirection==1){
+			int boatLengthVar = boatLength;
+			int directionChangeIndex = 1;
+			int i=0;
+			while(boatLengthVar>0){
+				if(randomOne-i>=0 && randomOne-i<playerBoard[0].length && playerBoard[randomOne-i][randomTwo]<3){
 					playerBoard[randomOne-i][randomTwo] = 3;
-					boatLength1--;
+					boatLengthVar--;
+					i++;
+				}else if(randomOne+directionChangeIndex>0 && randomOne+directionChangeIndex<playerBoard[0].length && playerBoard[randomOne+directionChangeIndex][randomTwo]<3){
+					playerBoard[randomOne+directionChangeIndex][randomTwo] = 3;
+					directionChangeIndex++;
+					boatLengthVar--;
 				}
 			}
 		}
-	}//cut out code
-}
+//		if(randomDirection==2){
+//			int boatLengthVar = boatLength;
+//			int directionChangeIndex = 1;
+//			int i=0;
+//			while(boatLengthVar>0){
+//				if(randomTwo-i>=0 && randomTwo-i<playerBoard[0].length && playerBoard[randomOne][randomTwo-i]<3){
+//					playerBoard[randomOne][randomTwo-i] = 3;
+//					boatLengthVar--;
+//					i++;
+//				}else if(randomTwo+directionChangeIndex>0 && randomTwo+directionChangeIndex<playerBoard[0].length && playerBoard[randomOne][randomTwo+directionChangeIndex]<3){
+//					playerBoard[randomOne][randomTwo+directionChangeIndex] = 3;
+//					directionChangeIndex++;
+//					boatLengthVar--;
+//				}
+//			}
+//		}
+		restrictAdjacentPanels();
+	}
 	
+	private void restrictAdjacentPanels() {
+		for(int row=0; row<playerBoard.length; row++){
+			for(int col=0; col<playerBoard[row].length; col++){
+				if(playerBoard[row][col] == 3){
+					for(int adjRow=row-1; adjRow<row+2; adjRow++){
+						for(int adjCol=col-1; adjCol<col+2; adjCol++){
+							if(adjRow >= 0 && adjCol >= 0 && adjRow < playerBoard.length && adjCol < playerBoard[0].length && playerBoard[adjRow][adjCol] <3){
+								playerBoard[adjRow][adjCol] = 4;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public void enter(){
 		super.enter();
 		System.out.println(" ");
