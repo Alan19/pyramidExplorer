@@ -1,143 +1,118 @@
 package pyramidExplorer;
 
+public class CaveRoomPd8 {
 
-public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
-	
-	private static int[][] playerBoard;
-	private static int[][] compBoard;
-	private static String[][] playerBoardString;
-	private static String[][] compBoardString;
-	private static boolean checkWin = false;
-	private static int[] boatArray = {1,2,3,4,5};
-	private static int[] directions = {1,2}; //1 for NORTH/SOUTH and 2 for EAST/WEST
-	
+	private String description;
+	private String directions;
+	private String contents;
+	private String defaultContents;
 
-	public JaviyAhmedRoom(String description) {
-		super(description);
-	}
-	
-	public void play() {
-		playerBoard = new int[10][10];
-		compBoard = new int[10][10];
+	private CaveRoomPd8[] borderingRooms;
+	private Door[] doors; 
+
+	public static final int NORTH = 0;
+	public static final int EAST = 1;
+	public static final int SOUTH = 2;
+	public static final int WEST = 3;
+
+
+	public CaveRoomPd8(String description){
+		this.description = description;
+		setDefaultContents(" ");
+		contents = defaultContents;
 		
-		playerBoardString = new String[10][10];
-		compBoardString = new String[10][10];
-		
-		//For player. Initializes the board w/ boats
-		setPlayerBoard();
-//		setCompBoard();
-		updateBoards();
-		print(playerBoardString);
-		while(!checkWin) //checkWin method that'll return a boolean
-			playGame();
-	}
-	
-	private void playGame() {
-		//This is just like the chatbot playing with a computer putting in coordinates to hit or miss
-		//Use a helper method to check if it was a hit or miss 
-		//Depending on that you redraw the boards accordingly
+		borderingRooms = new CaveRoomPd8[4];
+		doors = new Door[4];
+		for(int i = 0 ; i < borderingRooms.length; i++){
+			borderingRooms[i] = null;
+			doors[i] = null;
+		}
+		setDirections();
 	}
 
-	//0 means nothing 1 means miss 2 means hit and 3 means theres a boat there
-	private void updateBoards() {
-		for(int row = 0;row<playerBoardString.length;row++){
-			for(int col = 0;col<playerBoardString[0].length;col++){
-				if(playerBoard[row][col] == 0 || playerBoard[row][col] == 4){
-					playerBoardString[row][col] = "[ ]";
-				}else if(playerBoard[row][col] == 1){
-					playerBoardString[row][col] = "[O]";
-				}else if(playerBoard[row][col] == 2){
-					playerBoardString[row][col] = "[X]";
-				}else if(playerBoard[row][col] == 3){
-					playerBoardString[row][col] = "[S]";
+	protected void setDirections() {
+		directions	= "";
+		if(doors[NORTH] == null && 
+				doors[EAST] == null &&
+				doors[SOUTH] == null &&
+				doors[WEST] == null){
+			directions = "\n\nThis is a room with no exit. You will die here.";		
+		}else{
+			for(int dir = 0; dir < doors.length; dir++){
+				if(doors[dir] != null){
+					directions += "\n   There is a " + doors[dir].getDescription() + " to "+toDirection(dir)+". "+doors[dir].getDetails();
 				}
 			}
 		}
+	
 	}
 
-	private void setCompBoard() {
-		for(int i=0;i<5;i++){
-			int randomDirection = directions[(int)(Math.random()*directions.length)];
-			putInRandomDirection(randomDirection,boatArray[i]);
-		}
-	}
-	
-	
-	private void setPlayerBoard() {
-		for(int i=0;i<5;i++){
-			int randomDirection = directions[(int)(Math.random()*directions.length)];
-			putInRandomDirection(randomDirection,boatArray[i]);
-		}
+	public static String toDirection(int dir) {
+		String[] strings = {"the North", "the East", "the South", "the West"};
+		return strings[dir];
 	}
 
-	//This method with stop the for loop if the piece goes off board or hits another piece
-	//Use two if conditions and a while loop to do this
-	private void putInRandomDirection(int randomDirection, int boatLength) {
-		int randomOne = 0; 
-		int randomTwo = 0;
-		while(true){
-			randomOne = (int)(Math.random()*10);
-			randomTwo = (int)(Math.random()*10);
-			if(playerBoard[randomOne][randomTwo] < 3){
-				break;
-			}
-		}
-		if(randomDirection==1){
-			int boatLengthVar = boatLength;
-			int directionChangeIndex = 1;
-			int i=0;
-			while(boatLengthVar>0){
-				if(randomOne-i>=0 && randomOne-i<playerBoard[0].length && playerBoard[randomOne-i][randomTwo]<3){
-					playerBoard[randomOne-i][randomTwo] = 3;
-					boatLengthVar--;
-					i++;
-				}else if(randomOne+directionChangeIndex>0 && randomOne+directionChangeIndex<playerBoard[0].length && playerBoard[randomOne+directionChangeIndex][randomTwo]<3){
-					playerBoard[randomOne+directionChangeIndex][randomTwo] = 3;
-					directionChangeIndex++;
-					boatLengthVar--;
-				}
-			}
-		}
-//		if(randomDirection==2){
-//			int boatLengthVar = boatLength;
-//			int directionChangeIndex = 1;
-//			int i=0;
-//			while(boatLengthVar>0){
-//				if(randomTwo-i>=0 && randomTwo-i<playerBoard[0].length && playerBoard[randomOne][randomTwo-i]<3){
-//					playerBoard[randomOne][randomTwo-i] = 3;
-//					boatLengthVar--;
-//					i++;
-//				}else if(randomTwo+directionChangeIndex>0 && randomTwo+directionChangeIndex<playerBoard[0].length && playerBoard[randomOne][randomTwo+directionChangeIndex]<3){
-//					playerBoard[randomOne][randomTwo+directionChangeIndex] = 3;
-//					directionChangeIndex++;
-//					boatLengthVar--;
-//				}
-//			}
-//		}
-		restrictAdjacentPanels();
+	public String getContents(){
+		return contents;
 	}
 	
-	private void restrictAdjacentPanels() {
-		for(int row=0; row<playerBoard.length; row++){
-			for(int col=0; col<playerBoard[row].length; col++){
-				if(playerBoard[row][col] == 3){
-					for(int adjRow=row-1; adjRow<row+2; adjRow++){
-						for(int adjCol=col-1; adjCol<col+2; adjCol++){
-							if(adjRow >= 0 && adjCol >= 0 && adjRow < playerBoard.length && adjCol < playerBoard[0].length && playerBoard[adjRow][adjCol] <3){
-								playerBoard[adjRow][adjCol] = 4;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
 	public void enter(){
-		super.enter();
-		System.out.println(" ");
+		contents = "X";
 	}
 	
+	public void leave(){
+		contents = defaultContents;
+	}
+	
+	public void setDefaultContents(String symbol){
+		defaultContents = symbol;
+	}
+	
+
+	public void addRoom(int direction, CaveRoomPd8 anotherRoom, Door door){
+		borderingRooms[direction] = anotherRoom;
+		doors[direction] = door;
+		setDirections();
+	}
+	
+	/**
+	 * Gives this room access to anotherRoom (and vice-versa) and
+	 * sets a door between them, and updates the directions
+	 * @param direction
+	 * @param anotherRoom
+	 * @param door
+	 */
+	public void setConnection(int direction, CaveRoomPd8 anotherRoom, Door door){
+		addRoom(direction, anotherRoom, door);
+		anotherRoom.addRoom(oppositeDirection(direction), this, door);
+	}
+
+	/**
+	 * 
+	 * @param dir
+	 * @return opposite direction of dir (NORTH returns SOUTH...)
+	 */
+	public static int oppositeDirection(int dir){
+		return (dir+2)%4;
+	}
+
+	
+	public String getDescription(){
+		return description+directions;
+	}
+
+	
+
+	
+	public Door getDoor(int dir){
+		return doors[dir];
+	}
+
+
+	public void setDescription(String string) {
+		description = string;
+	}
+
 	public void interpretAction(String input) {
 		input = input.toLowerCase();
 		while(!isValid(input)){
@@ -152,12 +127,12 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 				break;
 			}
 		}
-//		if(borderingRooms[indexFound] != null && doors[indexFound] != null && doors[indexFound].isOpen()){
-//			CaveExplorer.currentRoom.leave();
-//			CaveExplorer.currentRoom = borderingRooms[indexFound];
-//			CaveExplorer.currentRoom.enter();
-//			CaveExplorer.inventory.updateMap();
-//		}
+		if(borderingRooms[indexFound] != null && doors[indexFound] != null && doors[indexFound].isOpen()){
+			CaveExplorer.currentRoom.leave();
+			CaveExplorer.currentRoom = borderingRooms[indexFound];
+			CaveExplorer.currentRoom.enter();
+			CaveExplorer.inventory.updateMap();
+		}
 	}
 
 	public static boolean isValid(String input) {
@@ -167,14 +142,5 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 		}
 		return false;
 	}
-	
 
-	private void print(Object[][] arr){
-		for(Object[] row:arr){
-			for(Object col:row){
-				System.out.print(col);
-			}
-			System.out.println();
-		}
-	}
 }
