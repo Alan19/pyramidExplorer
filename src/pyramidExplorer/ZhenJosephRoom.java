@@ -14,8 +14,9 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 
 	public void enter(){
 		super.enter();
-		System.out.println("You are trapped in this room! \nYou see that the floor might crumble if you step on certain tiles.\nIn order to know where to step, throw these rocks on the tiles to see where the floor can collaspe.");
 		
+		System.out.println("You are trapped in this room! \nYou see that the floor might crumble if you step on certain tiles.\nIn order to know where to step, throw these rocks on the tiles to see where the floor can collaspe.");
+		play();
 	}
 	
 	public void play(){
@@ -38,24 +39,42 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 				CaveExplorer.print("The ground collapses!");
 				break;
 			}
-			else if (!revealedTiles[row][col]) {
+			else if (revealedTiles[row][col]) {
 				CaveExplorer.print("That tile is already revealed");
 			}
 			else{
 				revealedTiles[row][col] = true;
 				//Use update tiles on each of the tiles around it
 				updateTiles(mines, tileValues, unrevealedTiles, row, col);
+				printGrid();
 			}
 		}
-
 	}
 	
-	private void updateTiles(boolean[][] mines, String[][] tileValues, String[][] unrevealedTiles, int row, int col) {
-		for (int i = row-1; i < row+2; i++) {
-			for (int j = col-1; j < col+2; j++) {
-				if(isValidTile(mines, i, j) && tileValues[i][j] == "0" && !revealedTiles[i][j]) updateTiles(mines, tileValues, unrevealedTiles, i, j);
-				else if (isValidTile(mines, i, j)) revealedTiles[i][j] = true;
+	private void printGrid() {
+		for (int row = 0; row < mines.length; row++) {
+			for (int col = 0; col < mines[row].length; col++) {
+				if (revealedTiles[row][col]) {
+					System.out.print(tileValues[row][col]);
+				}
+				else{
+					System.out.print(" ");
+				}
 			}
+			System.out.println();
+		}
+		
+	}
+
+	private void updateTiles(boolean[][] mines, String[][] tileValues, String[][] unrevealedTiles, int row, int col) {
+//		System.out.println(tileValues[row][col]);
+		if(tileValues[row][col].equals("0")){
+			for (int i = row-1; i < row+2; i++) {
+				for (int j = col-1; j < col+2; j++) {
+					if(isValidTile(mines, i, j) && tileValues[i][j].equals("0") && !revealedTiles[i][j]) updateTiles(mines, tileValues, unrevealedTiles, i, j);
+					else if (isValidTile(mines, i, j) && !mines[i][j]) revealedTiles[i][j] = true;
+				}
+			}			
 		}
 	}
 
