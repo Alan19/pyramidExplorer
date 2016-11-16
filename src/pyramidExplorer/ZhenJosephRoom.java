@@ -21,7 +21,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 	
 	public void play(){
 		
-		plantMines(mines, 10);
+		plantMines(mines, 7);
 		for (int row = 0; row < tileValues.length; row++) {
 			for (int col = 0; col < tileValues[row].length; col++) {
 				tileValues[row][col] = countNearby(mines, row, col);
@@ -37,15 +37,16 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 			
 			if(mines[row][col]){
 				CaveExplorer.print("The ground collapses!");
+				printPic(tileValues);
 				break;
 			}
 			else if (revealedTiles[row][col]) {
 				CaveExplorer.print("That tile is already revealed");
 			}
 			else{
-				revealedTiles[row][col] = true;
 				//Use update tiles on each of the tiles around it
 				updateTiles(mines, tileValues, unrevealedTiles, row, col);
+				
 				printGrid();
 			}
 		}
@@ -67,12 +68,18 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 	}
 
 	private void updateTiles(boolean[][] mines, String[][] tileValues, String[][] unrevealedTiles, int row, int col) {
-//		System.out.println(tileValues[row][col]);
+		System.out.println(tileValues[row][col]);
 		if(tileValues[row][col].equals("0")){
 			for (int i = row-1; i < row+2; i++) {
 				for (int j = col-1; j < col+2; j++) {
-					if(isValidTile(mines, i, j) && tileValues[i][j].equals("0") && !revealedTiles[i][j]) updateTiles(mines, tileValues, unrevealedTiles, i, j);
-					else if (isValidTile(mines, i, j) && !mines[i][j]) revealedTiles[i][j] = true;
+					System.out.println(i + "," + j);
+					if(isValidTile(mines, i, j) && tileValues[i][j].equals("0") && !revealedTiles[i][j]){
+						revealedTiles[i][j] = true;
+						updateTiles(mines, tileValues, unrevealedTiles, i, j);
+//						printGrid();
+					}
+					else if (isValidTile(mines, i, j) /*&& !mines[i][j]*/) 
+						revealedTiles[i][j] = true;
 				}
 			}			
 		}
@@ -151,6 +158,15 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 		}
 		else {
 			return false;
+		}
+	}
+	
+	public static void printPic(String[][] pic){
+		for (String[] row : pic) {
+			for (String col : row) {
+				System.out.print(col);
+			}
+			System.out.println();
 		}
 	}
 }
