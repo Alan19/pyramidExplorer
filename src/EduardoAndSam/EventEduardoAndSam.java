@@ -7,21 +7,22 @@ public class EventEduardoAndSam {
 
 	private static final String[] SEQUENCE_1 = {"Suddenly, all the doors slam shut.", "The closest door seems to have some sort of strange mark on it.", "On further inspection, you see that the mark is actually an half-filled grid of numbers", "As you lean in, you realize that there's a faint bit of text underneath the puzzle:", "'To leave this chamber, prove your mastery of the ancient art of magic (squares)!'"}; 
 	private static final String[] SEQUENCE_2 = {"As you scratch the last number into the square, the doors grind open.", "'Well, well, well' you hear, as you let out a sigh of relief.", "This should prove most... interesting", "You continue through the tunnels."};
-	
+	private static Scanner in = new Scanner(System.in);
+	public static int[][] magicSquare;
 	
 	public static void main(String[] args){
-		int[][] magicSquare = MagicSquareEduardo.CreateMagicSquareEduardo();
-		boolean squareComplete = SolveMagicSquareSam.check(magicSquare);
-		printSquare(magicSquare);
+		magicSquare = MagicSquareEduardo.CreateMagicSquareEduardo();
+		play();
 	}
 	
-	public void play() {
+	public static void play() {
 		readSequence(SEQUENCE_1);
-		int[][] magicSquare = MagicSquareEduardo.CreateMagicSquareEduardo();
-		boolean squareComplete = SolveMagicSquareSam.check(magicSquare);
 		printSquare(magicSquare);
+		while(!SolveMagicSquareSam.check(magicSquare)){
+			askForInput();
+			printSquare(magicSquare);
+		}
 		readSequence(SEQUENCE_2);
-		CaveExplorer.inventory.setHasMap(true);
 	}
 	
 	//
@@ -59,12 +60,21 @@ public class EventEduardoAndSam {
 	}
 
 	public static void readSequence(String[] seq){
-		for(String s : seq){
-			CaveExplorer.print(s);
+		for(int i = 0; i < seq.length; i++){
+			CaveExplorer.print(seq[i]);
 			CaveExplorer.print("- - - press enter - - -");
-			CaveExplorer.in.nextLine();
+			in.nextLine();
 		}
 	}
-	
+
+	public static void askForInput() {
+		System.out.println("What row do you want to put your answer in?");
+		String row = in.nextLine();
+		System.out.println("What column do you want to put your answer in?");
+		String column = in.nextLine();
+		System.out.println("What number do you want to put there?");
+		String input = in.nextLine();
+		SolveMagicSquareSam.interpretInput(input, column, row);
+	}
 	
 }

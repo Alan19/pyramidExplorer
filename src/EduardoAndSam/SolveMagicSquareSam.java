@@ -1,5 +1,7 @@
 package EduardoAndSam;
 
+import java.util.Scanner;
+
 public class SolveMagicSquareSam {
 
 	public static boolean check(int[][] magicSquare) {
@@ -23,4 +25,12 @@ public class SolveMagicSquareSam {
 		}
 		return true;
 	}
+
+	public static void interpretInput(String in,String column, String row1) {
+		int input = Integer.parseInt(in);
+		int col = Integer.parseInt(column);
+		int row = Integer.parseInt(row1);
+		EventEduardoAndSam.magicSquare[row-1][col-1] = input;
+	}
+
 }
