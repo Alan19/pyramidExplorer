@@ -1,53 +1,185 @@
 package pyramidExplorer;
 
-import java.util.Arrays;
+import java.util.Scanner;
 
-public class JaviyAhmedRoom extends CaveRoomPd8 {
+public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 	
-	private int[][] playerBoard;
-	private int[][] compBoard;
-	private String[][] playerBoardString;
-	private String[][] compBoardString;
-	
-	private static final int BOAT1 = 1;
-	private static final int BOAT2 = 2;
-	private static final int BOAT3 = 3;
-	private static final int BOAT4 = 4;
-	private static final int BOAT5 = 5;
-	private static final int BOAT6 = 6;
+	private static int[][] playerBoard;
+	private static int[][] compBoard;
+	private static String[][] playerBoardString;
+	private static String[][] compBoardString;
+	private static boolean checkWin = false;
+	private static int[] boatArray = {1,2,3,4,5};
+	private static int[] directions = {1,2}; //1 for NORTH/SOUTH and 2 for EAST/WEST
+	private static Scanner in;
 	
 
 	public JaviyAhmedRoom(String description) {
 		super(description);
-		setBoards();
 	}
 	
-	
-	private void setBoards() {
+	public void play() {
 		playerBoard = new int[10][10];
 		compBoard = new int[10][10];
 		
 		playerBoardString = new String[10][10];
 		compBoardString = new String[10][10];
 		
-//		for(int a = 0;a<playerBoardString[0].length;a++){
-//			playerBoardString[0][a] = "A"+(a+1)+".";
-//		}
-		for(int row = 0;row<playerBoardString.length;row++){
-			for(int col = 0;col<playerBoardString[0].length;col++){
-				if(playerBoard[row][col] == 0){
-					playerBoardString[row][col] = "[ ]";
-				}else if(playerBoard[row][col] == 1){
-					playerBoardString[row][col] = "[O]";
-				}else{
-					playerBoardString[row][col] = "[X]";
+		//For player. Initializes the board w/ boats
+		setPlayerBoard();
+		setCompBoard();
+		updateBoards(playerBoard,playerBoardString);
+		updateBoards(compBoard,compBoardString);
+		print(playerBoardString);
+		System.out.println();
+		print(compBoardString);
+		while(!checkWin){
+			playGame();			
+		}
+		System.out.println("You Won");
+	}
+	
+	private void CheckWin(int[][] intArray) {
+		int amountOfShips = 0;
+		for(int row = 0;row<intArray.length;row++){
+			for(int col = 0;col<intArray[0].length;col++){
+				if(intArray[row][col] == 3){
+					amountOfShips++;
 				}
 			}
 		}
 		
-		for(String[] row:playerBoardString){
-			for(String col:row){
-				System.out.println(col);
+		if(amountOfShips>0){
+			checkWin = false;
+		}else{
+			checkWin = true;
+		}
+	}
+
+	private void playGame() {
+		//This is just like the chatbot playing with a computer putting in coordinates to hit or miss
+		//Use a helper method to check if it was a hit or miss 
+		//Depending on that you redraw the boards accordingly
+		in = new Scanner(System.in);
+		String input = in.nextLine();
+		interpretAction(input);
+		updateBoards(compBoard,compBoardString);
+		CheckWin(compBoard);
+		print(compBoardString);
+	}
+
+	private void checkBoard(int[] coordinateChecker) {
+		if(compBoard[coordinateChecker[0]][coordinateChecker[1]]==1 || compBoard[coordinateChecker[0]][coordinateChecker[1]]==2){
+			System.out.println("You have already used this coordinate please select a new one.");
+		}else if(compBoard[coordinateChecker[0]][coordinateChecker[1]]==3){
+			compBoard[coordinateChecker[0]][coordinateChecker[1]]=2;
+		}else{
+			compBoard[coordinateChecker[0]][coordinateChecker[1]]=1;
+		}
+	}
+
+	//0 means nothing 1 means miss 2 means hit and 3 means theres a boat there
+	private void updateBoards(int[][] intArray,String[][] stringArray) {
+		for(int row = 0;row<stringArray.length;row++){
+			for(int col = 0;col<stringArray[0].length;col++){
+				if(intArray[row][col] == 0 || intArray[row][col] == 4){
+					stringArray[row][col] = "[ ]";
+				}else if(intArray[row][col] == 1){
+					stringArray[row][col] = "[O]";
+					System.out.println("You missed");
+				}else if(intArray[row][col] == 2){
+					stringArray[row][col] = "[X]";
+					System.out.println("You hit");
+				}else{// if(intArray[row][col] == 3){
+//					if(stringArray.equals(playerBoardString)){
+						stringArray[row][col] = "[S]";
+//					}
+//					else{
+//						stringArray[row][col] = "[ ]";
+//					}
+				}
+			}
+		}
+	}
+
+	private void setCompBoard() {
+		for(int i=0;i<5;i++){
+			int randomDirection = directions[(int)(Math.random()*directions.length)];
+			putInRandomDirection(randomDirection,boatArray[i],compBoard);
+		}
+	}
+	
+	
+	private void setPlayerBoard() {
+		for(int i=0;i<5;i++){
+			int randomDirection = directions[(int)(Math.random()*directions.length)];
+			putInRandomDirection(randomDirection,boatArray[i],playerBoard);
+		}
+	}
+
+	//This method with stop the for loop if the piece goes off board or hits another piece
+	//Use two if conditions and a while loop to do this
+	private void putInRandomDirection(int randomDirection, int boatLength, int[][] intArray) {
+		int randomOne = 0; 
+		int randomTwo = 0;
+		while(true){
+			randomOne = (int)(Math.random()*10);
+			randomTwo = (int)(Math.random()*10);
+			if(intArray[randomOne][randomTwo] < 3){
+				break;
+			}
+		}
+		if(randomDirection==1){
+			int boatLengthVar = boatLength;
+			int directionChangeIndex = 1;
+			int i=0;
+			while(boatLengthVar>0){
+				if(randomOne-i>=0 && randomOne-i<intArray[0].length && intArray[randomOne-i][randomTwo]<3){
+					intArray[randomOne-i][randomTwo] = 3;
+					boatLengthVar--;
+					i++;
+				}else if(randomOne+directionChangeIndex>0 && randomOne+directionChangeIndex<intArray[0].length && intArray[randomOne+directionChangeIndex][randomTwo]<3){
+					intArray[randomOne+directionChangeIndex][randomTwo] = 3;
+					directionChangeIndex++;
+					boatLengthVar--;
+				}else{
+					boatLengthVar--;
+				}
+			}
+		}
+		if(randomDirection==2){
+			int boatLengthVar = boatLength;
+			int directionChangeIndex = 1;
+			int i=0;
+			while(boatLengthVar>0){
+				if(randomTwo-i>=0 && randomTwo-i<intArray[0].length && intArray[randomOne][randomTwo-i]<3){
+					intArray[randomOne][randomTwo-i] = 3;
+					boatLengthVar--;
+					i++;
+				}else if(randomTwo+directionChangeIndex>0 && randomTwo+directionChangeIndex<intArray[0].length && intArray[randomOne][randomTwo+directionChangeIndex]<3){
+					intArray[randomOne][randomTwo+directionChangeIndex] = 3;
+					directionChangeIndex++;
+					boatLengthVar--;
+				}else{
+					boatLengthVar--;
+				}
+			}
+		}
+		restrictAdjacentPanels(intArray);
+	}
+	
+	private void restrictAdjacentPanels(int[][] intArray){
+		for(int row=0; row<intArray.length; row++){
+			for(int col=0; col<intArray[row].length; col++){
+				if(intArray[row][col] == 3){
+					for(int adjRow=row-1; adjRow<row+2; adjRow++){
+						for(int adjCol=col-1; adjCol<col+2; adjCol++){
+							if(adjRow >= 0 && adjCol >= 0 && adjRow < intArray.length && adjCol < intArray[0].length && intArray[adjRow][adjCol] <3){
+								intArray[adjRow][adjCol] = 4;
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -58,33 +190,55 @@ public class JaviyAhmedRoom extends CaveRoomPd8 {
 	}
 	
 	public void interpretAction(String input) {
-		input = input.toLowerCase();
+		//System.out.println(isValid(input));
 		while(!isValid(input)){
-			CaveExplorer.print("Please enter 'w', 'a', 's', or 'd'.");
-			input = CaveExplorer.in.nextLine().toLowerCase();
+			CaveExplorer.print("Please enter a valid coordinate.");
+			input = CaveExplorer.in.nextLine();
 		}
-		String[] keys = {"w", "d", "s", "a"};
-		int indexFound = -1;
-		for (int i = 0; i < keys.length; i++) {
-			if (keys[i].equals(input)) {
-				indexFound = i;
-				break;
+		
+		checkBoard(getCoordinates(input));
+	}
+
+	private int[] getCoordinates(String input) {
+		String[] keysAlpha = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
+		String[] keysNum = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+		int[] coordinate = new int[2];
+		for(int row = 0;row<keysAlpha.length;row++){
+			if(input.substring(0,1).toLowerCase().equals(keysAlpha[row]))coordinate[0]=row;
+			for(int col = 0;col<keysNum.length;col++){
+				if(input.substring(1).equals(keysNum[col]))coordinate[1]=col;
 			}
 		}
-//		if(borderingRooms[indexFound] != null && doors[indexFound] != null && doors[indexFound].isOpen()){
-//			CaveExplorer.currentRoom.leave();
-//			CaveExplorer.currentRoom = borderingRooms[indexFound];
-//			CaveExplorer.currentRoom.enter();
-//			CaveExplorer.inventory.updateMap();
-//		}
+//		System.out.println(coordinate[0]);
+//		System.out.println(coordinate[1]);
+		return coordinate;
 	}
 
 	public static boolean isValid(String input) {
-		String[] keys = {"w", "d", "s", "a"};
-		for (String key : keys) {
-			if(input.equals(key)) return true;
+		String[] keysAlpha = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
+		String[] keysNum = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+		for (String key : keysAlpha) {
+			if(input.substring(0,1).toLowerCase().equals(key)){
+				for(String keyNum : keysNum){
+					if(input.substring(1).equals(keyNum)) return true;
+				}
+			}
 		}
 		return false;
 	}
+	
 
+	private void print(Object[][] arr){
+		for(Object[] row:arr){
+			for(Object col:row){
+				System.out.print(col);
+			}
+			System.out.println();
+		}
+	}
+	//Ai Class
+	//getCoordinates
+	//isValid
+	//interpretAction
+	//checkBoard
 }
