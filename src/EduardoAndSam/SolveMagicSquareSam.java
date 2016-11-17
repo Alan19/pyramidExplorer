@@ -1,6 +1,6 @@
 package EduardoAndSam;
 
-import java.util.Scanner;
+import pyramidExplorer.CaveExplorer;
 
 public class SolveMagicSquareSam {
 
@@ -30,7 +30,12 @@ public class SolveMagicSquareSam {
 		int input = Integer.parseInt(in);
 		int col = Integer.parseInt(column);
 		int row = Integer.parseInt(row1);
-		EventEduardoAndSam.magicSquare[row-1][col-1] = input;
+		boolean[][] unch = MagicSquareEduardo.giveUnchangeables();
+		if(unch[row-1][col-1]){
+			CaveExplorer.print("You feel as though you should leave the numbers that are still there...");
+		}else{
+			EventEduardoAndSam.magicSquare[row-1][col-1] = input;
+		}
 	}
 
 }
