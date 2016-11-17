@@ -19,7 +19,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 	
 	public void play(){
 		//Sets the number of mines
-		plantMines(mines, 2);
+		plantMines(mines, 15);
 		for (int row = 0; row < tileValues.length; row++) {
 			for (int col = 0; col < tileValues[row].length; col++) {
 				tileValues[row][col] = countNearby(mines, row, col);
