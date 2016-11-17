@@ -25,15 +25,22 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 				tileValues[row][col] = countNearby(mines, row, col);
 			}
 		}
-		
+		boolean isCheating = false;
+		System.out.println("Are you ready to play?");
+		String input = CaveExplorer.in.nextLine();
+		if(input.equals("I want to leave")){
+			CaveExplorer.print("Your outrageous input crashes the minefield. All the tiles are now revealed, allowing you to cross the room without any problems");
+			printPic(tileValues);
+			isCheating = true;
+		}
 		while(true){
+			if(isCheating) break;
 			if(allStandardTilesRevealed()){
 				System.out.println("The room and the tiles light up, showing you how to cross the room");
 				break;
 			}
 			CaveExplorer.print("Which row would you like to check?");
-			int row = getNonNegativeIntegerInput();
-			
+			int row = getNonNegativeIntegerInput();				
 			CaveExplorer.print("Which column would you like to check?");
 			int col = getNonNegativeIntegerInput();
 			
@@ -102,7 +109,6 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 	}
 	
 	private static int getNonNegativeIntegerInput() {
-		System.out.println("Please enter an non-negative integer.");
 		String integerString = CaveExplorer.in.nextLine();
 		boolean isInteger = false;
 		boolean isPositive = false;
