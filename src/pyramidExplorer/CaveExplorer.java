@@ -20,11 +20,15 @@ public class CaveExplorer {
 		currentRoom = caves[1][2];
 		currentRoom.enter();
 		caves[1][3] = new EventRoom("This is where you found the map!", new GameStartEvent());
-		caves[1][4] = new ZhenJosephRoom("You see a room with many tiles.");
+		caves[1][4] = new EventRoom("You see a room with many tiles.", new ZhenJosephRoom("You are trapped in this room! \nYou see that the floor might crumble if you step on certain tiles.\nIn order to know where to step, throw these rocks on the tiles to see where the floor can collaspe."));
+		caves[3][2] = new EventRoom("You see a room with many tiles.", new ZhenJosephRoom("You are trapped in this room! \nYou see that the floor might crumble if you step on certain tiles.\nIn order to know where to step, throw these rocks on the tiles to see where the floor can collaspe."));
 		caves[1][2].setConnection(CaveRoomPd8.WEST, caves[1][1], new Door());
 		caves[1][2].setConnection(CaveRoomPd8.SOUTH, caves[2][2], new Door());
 		caves[1][2].setConnection(CaveRoomPd8.EAST, caves[1][3], new Door());
 		caves[1][4].setConnection(CaveRoomPd8.WEST, caves[1][3], new Door());
+		caves[2][3].setConnection(CaveRoomPd8.NORTH, caves[1][3], new Door());
+		caves[3][3].setConnection(CaveRoomPd8.NORTH, caves[2][3], new Door());
+		caves[3][2].setConnection(CaveRoomPd8.EAST, caves[3][3], new Door());
 		inventory = new InventoryNockles();
 		startExploring();
 	}

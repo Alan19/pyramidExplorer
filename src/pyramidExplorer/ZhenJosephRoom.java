@@ -1,19 +1,16 @@
 package pyramidExplorer;
 
-public class ZhenJosephRoom extends CaveRoomPd8 {
+public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 	private static int fieldSize = 10;
 	private boolean[][] revealedTiles = new boolean [fieldSize][fieldSize];
 	private boolean[][] mines = new boolean[fieldSize][fieldSize];
 	private String[][] tileValues = new String[fieldSize][fieldSize];
 	public ZhenJosephRoom(String description) {
 		super(description);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void enter(){
 		super.enter();
-		
-		System.out.println("You are trapped in this room! \nYou see that the floor might crumble if you step on certain tiles.\nIn order to know where to step, throw these rocks on the tiles to see where the floor can collaspe.");
 		play();
 	}
 	
