@@ -24,7 +24,7 @@ public class MagicSquareEduardo {
 			magicSquareUn[distinctRow[i]-1][distinctCol[i]-1] = magicSquare[distinctRow[i]-1][distinctCol[i]-1];
 			unchangeables[distinctRow[i]-1][distinctCol[i]-1] = true;
 		}
-		int extraRow = (int)(Math.random()*3+1);
+		int extraRow = (int)(Math.random()*3+1); 
 		int extraCol = (int)(Math.random()*3+1);
 		return magicSquareUn;
 	}

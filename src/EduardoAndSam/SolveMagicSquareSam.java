@@ -35,7 +35,7 @@ public class SolveMagicSquareSam {
 			CaveExplorer.print("You feel as though you should leave the numbers that are still there...");
 		}else{
 			EventEduardoAndSam.magicSquare[row-1][col-1] = input;
-		}
+		} 
 	}
 
 }
