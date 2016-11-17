@@ -9,6 +9,7 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 	private static String[][] playerBoardString;
 	private static String[][] compBoardString;
 	private static boolean checkWin = false;
+	private static boolean checkLose = true;
 	private static int[] boatArray = {1,2,3,4,5};
 	private static int[] directions = {1,2}; //1 for NORTH/SOUTH and 2 for EAST/WEST
 	private static Scanner in;
@@ -36,11 +37,14 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 		while(!checkWin){
 			playGame();			
 		}
-		System.out.println("You Won");
+		if(checkLose){
+			System.out.println("You LOST");
+		}else System.out.println("You Won");
 	}
 	
-	private void CheckWin(int[][] intArray) {
+	private void CheckWin(int[][] intArray,int[][] intArrayTwo) {
 		int amountOfShips = 0;
+		int yourBoard = 0;
 		for(int row = 0;row<intArray.length;row++){
 			for(int col = 0;col<intArray[0].length;col++){
 				if(intArray[row][col] == 3){
@@ -48,8 +52,16 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 				}
 			}
 		}
-		
-		if(amountOfShips>0){
+		for(int row = 0;row<intArrayTwo.length;row++){
+			for(int col = 0;col<intArrayTwo[0].length;col++){
+				if(intArrayTwo[row][col] == 3){
+					yourBoard++;
+				}
+			}
+		}
+		if(yourBoard==15){
+			checkLose = true;
+		}else if(amountOfShips>0){
 			checkWin = false;
 		}else{
 			checkWin = true;
@@ -64,7 +76,7 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 		String input = in.nextLine();
 		interpretAction(input);
 		updateBoards(compBoard,compBoardString);
-		CheckWin(compBoard);
+		CheckWin(compBoard,playerBoard);
 		print(compBoardString);
 	}
 
