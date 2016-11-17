@@ -1,12 +1,10 @@
 package pyramidExplorer;
 
 public class ZhenJosephRoom extends CaveRoomPd8 {
-	private static int fieldSize = 12;
+	private static int fieldSize = 10;
 	private boolean[][] revealedTiles = new boolean [fieldSize][fieldSize];
 	private boolean[][] mines = new boolean[fieldSize][fieldSize];
 	private String[][] tileValues = new String[fieldSize][fieldSize];
-	private String[][] unrevealedTiles = new String[fieldSize][fieldSize];
-	
 	public ZhenJosephRoom(String description) {
 		super(description);
 		// TODO Auto-generated constructor stub
@@ -20,8 +18,8 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 	}
 	
 	public void play(){
-		
-		plantMines(mines, 7);
+		//Sets the number of mines
+		plantMines(mines, 2);
 		for (int row = 0; row < tileValues.length; row++) {
 			for (int col = 0; col < tileValues[row].length; col++) {
 				tileValues[row][col] = countNearby(mines, row, col);
@@ -29,6 +27,10 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 		}
 		
 		while(true){
+			if(allStandardTilesRevealed()){
+				System.out.println("The room and the tiles light up, showing you how to cross the room");
+				break;
+			}
 			CaveExplorer.print("Which row would you like to check?");
 			int row = getNonNegativeIntegerInput();
 			
@@ -45,13 +47,45 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 			}
 			else{
 				//Use update tiles on each of the tiles around it
-				updateTiles(mines, tileValues, unrevealedTiles, row, col);
-				
+				updateTiles(row, col);
 				printGrid();
 			}
 		}
 	}
-	
+
+	private boolean allStandardTilesRevealed() {
+		//Returns true if all non mine tiles are revealed
+		for (int row = 0; row < mines.length; row++) {
+			for (int col = 0; col < mines[row].length; col++) {
+				if(!revealedTiles[row][col] && !mines[row][col]){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private void updateTiles(int row, int col) {
+//		System.out.println(tileValues[row][col]);
+		if(tileValues[row][col].equals("0")){
+			for (int i = row-1; i < row+2; i++) {
+				for (int j = col-1; j < col+2; j++) {
+					if(isValidTile(mines, i, j) && tileValues[i][j].equals("0") && !revealedTiles[i][j]){
+						revealedTiles[i][j] = true;
+						updateTiles(i, j);
+//						printGrid();
+					}
+					else if (isValidTile(mines, i, j) /*&& !mines[i][j]*/){						
+						revealedTiles[i][j] = true;
+					}
+					
+				}
+			}			
+		}
+		else{
+				revealedTiles[row][col] = true;
+		}
+	}
 	private void printGrid() {
 		for (int row = 0; row < mines.length; row++) {
 			for (int col = 0; col < mines[row].length; col++) {
@@ -66,25 +100,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 {
 		}
 		
 	}
-
-	private void updateTiles(boolean[][] mines, String[][] tileValues, String[][] unrevealedTiles, int row, int col) {
-		System.out.println(tileValues[row][col]);
-		if(tileValues[row][col].equals("0")){
-			for (int i = row-1; i < row+2; i++) {
-				for (int j = col-1; j < col+2; j++) {
-					System.out.println(i + "," + j);
-					if(isValidTile(mines, i, j) && tileValues[i][j].equals("0") && !revealedTiles[i][j]){
-						revealedTiles[i][j] = true;
-						updateTiles(mines, tileValues, unrevealedTiles, i, j);
-//						printGrid();
-					}
-					else if (isValidTile(mines, i, j) /*&& !mines[i][j]*/) 
-						revealedTiles[i][j] = true;
-				}
-			}			
-		}
-	}
-
+	
 	private static int getNonNegativeIntegerInput() {
 		System.out.println("Please enter an non-negative integer.");
 		String integerString = CaveExplorer.in.nextLine();
