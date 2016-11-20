@@ -4,6 +4,26 @@ import java.util.Scanner;
 
 public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 	
+	public static final String[] SEQUENCE_1 = {
+			"<A silhouette of a person passes by you in this pyramid ",
+			"there's an ominous feeling that went down your spine.>",
+			"A deep voice speaks to you ",
+			"You're not around here please follow the shadows", 
+			"It will lead to your freedom."
+		};
+	public static final String[] SEQUENCE_2 = {
+			"The silhouette disappears into the wall and NOW ALL THE DOORS SHUT DOWN ON YOU",
+			"WHO ARE YOU, why are you here?.",
+			"I am the King of Games everyone calls me The Pharaoh.",
+			"Please brave challenger duel and deafeat my enemy in the Shadow Realm",
+			"Will you please duel in my place?",
+			"If you win, I will show you the way out."
+	};
+		public static final String[] SEQUENCE_3 = {
+				"You are in a foggy enviroment ",
+				"All your monsters must suvive and you must destory all of theres",
+				"Please pick coordinates and win this duel!"
+		};
 	private static int[][] playerBoard;
 	private static int[][] compBoard;
 	private static String[][] playerBoardString;
@@ -13,6 +33,9 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 	private static int[] boatArray = {1,2,3,4,5};
 	private static int[] directions = {1,2}; //1 for NORTH/SOUTH and 2 for EAST/WEST
 	private static Scanner in;
+	private static boolean reveal = false;
+	private static boolean playerHit;
+	private static boolean compHit;
 	
 
 	public JaviyAhmedRoom(String description) {
@@ -20,6 +43,17 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 	}
 	
 	public void play() {
+		readSequence(SEQUENCE_1);
+		System.out.println("Would you like to follow the silhouette?");
+		while(CaveExplorer.in.nextLine().toLowerCase().indexOf("yes") < 0){
+			CaveExplorer.print("IF YOU DON'T FOLLOW HIM YOU MAY BE TRAPPED IN THIS MAZE FOREVER");
+		}
+		readSequence(SEQUENCE_2);
+		System.out.println("Come on! Tell me you like to duel.");
+		while(CaveExplorer.in.nextLine().toLowerCase().indexOf("yes") < 0){
+			CaveExplorer.print("C'mon! You know you should duel! Say yes!");
+		}
+		readSequence(SEQUENCE_3);
 		playerBoard = new int[10][10];
 		compBoard = new int[10][10];
 		
@@ -38,8 +72,11 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 			playGame();			
 		}
 		if(checkLose){
-			System.out.println("You LOST");
-		}else System.out.println("You Won");
+			System.out.println("You LOST, now you will never leave!Be banished to the Shodow Realm");
+		}else {
+			System.out.println("You Won, sorry I lied I don't know my way out.");
+			System.out.println("I've been trapped here for 10,000 years YOU ARE SO SCREWED!");
+		}
 	}
 	
 	private void CheckWin(int[][] intArray,int[][] intArrayTwo) {
@@ -74,10 +111,20 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 		//Depending on that you redraw the boards accordingly
 		in = new Scanner(System.in);
 		String input = in.nextLine();
-		interpretAction(input);
-		updateBoards(compBoard,compBoardString);
-		CheckWin(compBoard,playerBoard);
+		playerHit = true;
+		compHit = true;
+		while(playerHit){
+			interpretAction(input);
+			updateBoards(compBoard,compBoardString);
+			CheckWin(compBoard,playerBoard);
+		}
 		print(compBoardString);
+		while(compHit){
+			interpretAction(input);
+			updateBoards(compBoard,playerBoardString);
+			CheckWin(compBoard,compBoard);
+		}
+		print(playerBoardString);
 	}
 
 	private void checkBoard(int[] coordinateChecker) {
@@ -87,6 +134,7 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 			compBoard[coordinateChecker[0]][coordinateChecker[1]]=2;
 		}else{
 			compBoard[coordinateChecker[0]][coordinateChecker[1]]=1;
+			playerHit = false;
 		}
 	}
 
@@ -103,12 +151,14 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 					stringArray[row][col] = "[X]";
 					System.out.println("You hit");
 				}else{// if(intArray[row][col] == 3){
-//					if(stringArray.equals(playerBoardString)){
+					if(stringArray.equals(playerBoardString)){
 						stringArray[row][col] = "[S]";
-//					}
-//					else{
-//						stringArray[row][col] = "[ ]";
-//					}
+					}else if(reveal==true){
+						stringArray[row][col] = "[S]";
+					}
+					else{
+						stringArray[row][col] = "[ ]";
+					}
 				}
 			}
 		}
@@ -203,12 +253,17 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 	
 	public void interpretAction(String input) {
 		//System.out.println(isValid(input));
+		if(input.toLowerCase().equals("swords of revealing light")){
+			reveal = true;
+			playerHit = false;
+		}else{
 		while(!isValid(input)){
 			CaveExplorer.print("Please enter a valid coordinate.");
 			input = CaveExplorer.in.nextLine();
 		}
 		
 		checkBoard(getCoordinates(input));
+		}
 	}
 
 	private int[] getCoordinates(String input) {
@@ -230,9 +285,9 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 		String[] keysAlpha = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
 		String[] keysNum = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 		for (String key : keysAlpha) {
-			if(input.substring(0,1).toLowerCase().equals(key)){
+			if(input.substring(0,1).toLowerCase().equals(key)||input.toLowerCase().equals("swords of revealing light")){
 				for(String keyNum : keysNum){
-					if(input.substring(1).equals(keyNum)) return true;
+					if(input.substring(1).equals(keyNum)||input.toLowerCase().equals("swords of revealing light")) return true;
 				}
 			}
 		}
@@ -247,6 +302,15 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 			}
 			System.out.println();
 		}
+	}
+	
+	public static void readSequence(String[] seq) {
+		for(String s : seq){
+			CaveExplorer.print(s);
+			
+		}
+		CaveExplorer.print("--- press enter ---");
+		
 	}
 	//Ai Class
 	//getCoordinates
