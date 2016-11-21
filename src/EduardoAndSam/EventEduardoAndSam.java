@@ -3,7 +3,7 @@ package EduardoAndSam;
 import pyramidExplorer.CaveExplorer;
 import java.util.Scanner;
 
-public class EventEduardoAndSam {
+public class EventEduardoAndSam extends CaveRoomPd8 implements Playable {
 
 	private static final String[] SEQUENCE_1 = {"Suddenly, all the doors slam shut.", "The closest door seems to have some sort of strange mark on it.", "On further inspection, you see that the mark is actually an half-filled grid of numbers", "As you lean in, you realize that there's a faint bit of text underneath the puzzle:", "'To leave this chamber, prove your mastery of the ancient art of magic (squares)!'"}; 
 	private static final String[] SEQUENCE_2 = {"As you scratch the last number into the square, the doors grind open.", "'Well, well, well' you hear, as you let out a sigh of relief.", "This should prove most... interesting", "You continue through the tunnels."};
