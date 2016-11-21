@@ -3,15 +3,9 @@ package pyramidExplorer;
 public class GameStartEvent implements Playable {
 
 	public static final String[] SEQUENCE_1 = {
-		"<A little yellow mouse with brown stries and ",
-		"a lightning shaped tail runs up to you.>",
-		"Hi. I can see ",
-		"that you are not from around here!", 
-		"Do you like puzzles?"
-	};
-	public static final String[] SEQUENCE_2 = {
-			"You are going to enjoy my 2D puzzle games.",
-			"Here is a map of all the games I've prepared."
+		"<You wake up find yourself in a place you've never seen.",
+		"You find a map next to you.",
+		"It seems that you are in a pyramid and there is a way out not too far away from you!>"
 	};
 	public GameStartEvent() {
 		// TODO Auto-generated constructor stub
@@ -20,11 +14,6 @@ public class GameStartEvent implements Playable {
 	@Override
 	public void play() {
 		readSequence(SEQUENCE_1);
-		System.out.println("Come on! Tell me you like puzzles.");
-		while(CaveExplorer.in.nextLine().toLowerCase().indexOf("yes") < 0){
-			CaveExplorer.print("C'mon! You know you like puzzles! Say yes!");
-		}
-		readSequence(SEQUENCE_2);
 		CaveExplorer.inventory.setHasMap(true);
 	}
 	

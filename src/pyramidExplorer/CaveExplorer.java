@@ -20,8 +20,6 @@ public class CaveExplorer {
 				caves[row][col] = new CaveRoomPd8("This room has coordinates " + row + ", " + col);
 			}
 		}
-		currentRoom = caves[1][2];
-		currentRoom.enter();
 		caves[1][3] = new EventRoom("This is where you found the map!", new GameStartEvent());
 		caves[1][4] = new EventRoom("You see a room with many tiles.", new ZhenJosephRoom(null));
 		caves[3][2] = new EventRoom("You see a room with many tiles.", new ZhenJosephRoom(null));
@@ -34,6 +32,8 @@ public class CaveExplorer {
 		caves[3][3].setConnection(CaveRoomPd8.NORTH, caves[2][3], new Door());
 		caves[3][2].setConnection(CaveRoomPd8.EAST, caves[3][3], new Door());
 		inventory = new InventoryNockles();
+		currentRoom = caves[1][3];
+		currentRoom.enter();
 		startExploring();
 	}
 
