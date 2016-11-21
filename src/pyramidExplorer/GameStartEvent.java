@@ -32,8 +32,8 @@ public class GameStartEvent implements Playable {
 		for(String s : seq){
 			CaveExplorer.print(s);
 			CaveExplorer.print("--- press enter ---");
-			String input = CaveExplorer.in.nextLine();
 			while (true) {
+				String input = CaveExplorer.in.nextLine();
 				if(input.equals("")) break;
 			}
 		}

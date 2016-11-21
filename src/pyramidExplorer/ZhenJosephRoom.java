@@ -10,8 +10,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 	}
 
 	public void enter(){
-		super.enter();
-		play();
+
 	}
 	
 	public void play(){
