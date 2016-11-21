@@ -12,10 +12,15 @@ public class ZhenMinefieldUtilities {
 		}
 	}
 	
-	public static void printPic(String[][] pic){
-		for (String[] row : pic) {
-			for (String col : row) {
-				System.out.print(col);
+	static void printGrid(boolean[][] mines, boolean[][] revealedTiles, String[][] tileValues) {
+		for (int row = 0; row < mines.length; row++) {
+			for (int col = 0; col < mines[row].length; col++) {
+				if (revealedTiles[row][col]) {
+					System.out.print(tileValues[row][col]);
+				}
+				else{
+					System.out.print(" ");
+				}
 			}
 			System.out.println();
 		}

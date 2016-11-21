@@ -30,7 +30,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 		String input = CaveExplorer.in.nextLine();
 		if(input.equals("I want to leave")){
 			CaveExplorer.print("Your outrageous input crashes the minefield. All the tiles are now revealed, allowing you to cross the room without any problems");
-			ZhenMinefieldUtilities.printPic(tileValues);
+			printPic(tileValues);
 			isCheating = true;
 		}
 		while(true){
@@ -46,7 +46,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 			
 			if(mines[row][col]){
 				CaveExplorer.print("The ground collapses!");
-				ZhenMinefieldUtilities.printPic(tileValues);
+				printPic(tileValues);
 				break;
 			}
 			else if (revealedTiles[row][col]) {
@@ -55,7 +55,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 			else{
 				//Use update tiles on each of the tiles around it
 				updateTiles(row, col);
-				printGrid();
+				ZhenMinefieldUtilities.printGrid(mines, revealedTiles, tileValues);
 			}
 		}
 	}
@@ -83,22 +83,15 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 				revealedTiles[row][col] = true;
 		}
 	}
-	private void printGrid() {
-		for (int row = 0; row < mines.length; row++) {
-			for (int col = 0; col < mines[row].length; col++) {
-				if (revealedTiles[row][col]) {
-					System.out.print(tileValues[row][col]);
-				}
-				else{
-					System.out.print(" ");
-				}
+	
+	public static void printPic(String[][] pic){
+		for (String[] row : pic) {
+			for (String col : row) {
+				System.out.print(col);
 			}
 			System.out.println();
 		}
-		
 	}
-	
-	
 	
 	private static void plantMines(boolean[][] mines, int numberOfMines) {
 		while(numberOfMines > 0){
