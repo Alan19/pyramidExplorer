@@ -10,7 +10,6 @@ public class EventEduardoAndSam extends CaveRoomPd8 implements Playable {
 
 	public EventEduardoAndSam(String description) {
 		super(description);
-	//	play();
 	}
 
 	private static final String[] SEQUENCE_1 = {"Suddenly, all the doors slam shut.", "The closest door seems to have some sort of strange mark on it.", "On further inspection, you see that the mark is actually an half-filled grid of numbers", "As you lean in, you realize that there's a faint bit of text underneath the puzzle:", "'To leave this chamber, prove your mastery of the ancient art of magic (squares)! [Hint: Always start with a six or a seven next to each other in the top row!]'"}; 
