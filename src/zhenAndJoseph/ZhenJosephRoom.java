@@ -51,6 +51,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 			if(mines[row][col]){
 				CaveExplorer.print("The ground collapses!");
 				printPic(tileValues);
+				CaveExplorer.lose = true;
 				break;
 			}
 			else if (revealedTiles[row][col]) {

@@ -11,6 +11,7 @@ public class CaveExplorer {
 	public static Scanner in;
 	public static CaveRoomPd8 currentRoom;
 	public static InventoryNockles inventory;
+	public static boolean lose = false;
 	
 
 	public static void main(String[] args) {
@@ -48,6 +49,10 @@ public class CaveExplorer {
 		while (true) {
 			if(currentRoom == caves[4][0]){
 				print("You have escaped from the pyramid!");
+				break;
+			}
+			if(lose){
+				print("You are trapped forever!");
 				break;
 			}
 			print(inventory.getDescription());
