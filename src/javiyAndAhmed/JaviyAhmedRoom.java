@@ -29,7 +29,7 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 				"Please pick coordinates and win this duel!"
 		};
 
-	private static boolean checkWin = false;
+	public static boolean checkWin = false;
 	public static Scanner in;	
 
 	public JaviyAhmedRoom(String description) {
@@ -54,7 +54,7 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 		print(BoardGen.compBoardString);
 		
 		while(!checkWin){
-			PlayerAndAI.playGame();			
+			PlayerAndAI.playGame();	
 		}
 	}
 	

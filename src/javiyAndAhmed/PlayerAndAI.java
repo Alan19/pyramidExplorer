@@ -1,6 +1,7 @@
 package javiyAndAhmed;
 
 import java.util.Scanner;
+import java.util.spi.LocaleServiceProvider;
 
 import pyramidExplorer.CaveExplorer;
 
@@ -183,7 +184,14 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 						}
 					}
 				}
-		}else{
+		}
+		else if(input.toLowerCase().equals("seppuku")){
+			JaviyAhmedRoom.checkWin = true;
+			System.out.println("You Lose, sorry I lied I don't know my way out.");
+			System.out.println("I've been trapped here for 10,000 years YOU ARE SO SCREWED!");
+			CaveExplorer.lose = true;
+		}
+		else{
 		while(!isValid(input)){
 			CaveExplorer.print("Please enter a valid coordinate.");
 			input = CaveExplorer.in.nextLine();
@@ -200,7 +208,7 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 		for (String key : keysAlpha) {
 			if(input.substring(0,1).toLowerCase().equals(key)||input.toLowerCase().equals("swords of revealing light")){
 				for(String keyNum : keysNum){
-					if(input.substring(1).equals(keyNum)||input.toLowerCase().equals("swords of revealing light")||input.toLowerCase().equals("bomb")) return true;
+					if(input.substring(1).equals(keyNum)||input.toLowerCase().equals("swords of revealing light")||input.toLowerCase().equals("bomb")||input.toLowerCase().equals("seppuku")) return true;
 				}
 			}
 		}
