@@ -64,23 +64,5 @@ public class ZhenMinefieldUtilities {
 		return true;
 	}
 	
-	static String countNearby(boolean[][] mines, int row, int col) {
-		int count = 0;
-//		
-		//This method allows you to be most specific. For example, you only want north and east
-		if(mines[row][col]){
-			return "X";
-		}
-		else{
-			count += ZhenJosephRoom.isValidAndTrue(mines, row+1, col);
-			count += ZhenJosephRoom.isValidAndTrue(mines, row-1, col);
-			count += ZhenJosephRoom.isValidAndTrue(mines, row, col-1);
-			count += ZhenJosephRoom.isValidAndTrue(mines, row, col+1);
-			count += ZhenJosephRoom.isValidAndTrue(mines, row+1, col-1);
-			count += ZhenJosephRoom.isValidAndTrue(mines, row-1, col+1);
-			count += ZhenJosephRoom.isValidAndTrue(mines, row+1, col+1);
-			count += ZhenJosephRoom.isValidAndTrue(mines, row-1, col-1);
-			return "" + count;
-		}
-	}
+	
 }
