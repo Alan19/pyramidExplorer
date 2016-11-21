@@ -2,6 +2,7 @@ package zhenAndJoseph;
 
 import pyramidExplorer.CaveExplorer;
 import pyramidExplorer.CaveRoomPd8;
+import pyramidExplorer.GameStartEvent;
 import pyramidExplorer.Playable;
 
 public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
@@ -17,8 +18,11 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 
 	} 
 	
+	private static final String[] SEQUENCE = {"You are trapped in this room!", "You see that the floor might crumble if you step on certain tiles.", "In order to know where to step, throw these rocks on the tiles to see where the floor can collaspe."};
+	
 	public void play(){
 		//Sets the number of mines
+		GameStartEvent.readSequence(SEQUENCE);
 		plantMines(mines, 15);
 		for (int row = 0; row < tileValues.length; row++) {
 			for (int col = 0; col < tileValues[row].length; col++) {
