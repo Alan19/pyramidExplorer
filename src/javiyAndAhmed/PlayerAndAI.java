@@ -1,4 +1,4 @@
-package JaviyAndAhmed;
+package javiyAndAhmed;
 
 import java.util.Scanner;
 

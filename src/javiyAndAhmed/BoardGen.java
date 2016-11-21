@@ -1,4 +1,4 @@
-package JaviyAndAhmed;
+package javiyAndAhmed;
 
 public class BoardGen extends JaviyAhmedRoom {
 
