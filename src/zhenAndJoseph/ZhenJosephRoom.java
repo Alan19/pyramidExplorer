@@ -15,14 +15,14 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 
 	public void enter(){
 
-	}
+	} 
 	
 	public void play(){
 		//Sets the number of mines
 		plantMines(mines, 15);
 		for (int row = 0; row < tileValues.length; row++) {
 			for (int col = 0; col < tileValues[row].length; col++) {
-				tileValues[row][col] = countNearby(mines, row, col);
+				tileValues[row][col] = JosephMinefieldProccessing.countNearby(mines, row, col);
 			}
 		}
 		boolean isCheating = false;
@@ -54,33 +54,9 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 			}
 			else{
 				//Use update tiles on each of the tiles around it
-				updateTiles(row, col);
+				JosephMinefieldProccessing.updateTiles(row, col, tileValues, mines, revealedTiles);
 				ZhenMinefieldUtilities.printGrid(mines, revealedTiles, tileValues);
 			}
-		}
-	}
-
-	
-
-	private void updateTiles(int row, int col) {
-//		System.out.println(tileValues[row][col]);
-		if(tileValues[row][col].equals("0")){
-			for (int i = row-1; i < row+2; i++) {
-				for (int j = col-1; j < col+2; j++) {
-					if(ZhenMinefieldUtilities.isValidTile(mines, i, j) && tileValues[i][j].equals("0") && !revealedTiles[i][j]){
-						revealedTiles[i][j] = true;
-						updateTiles(i, j);
-//						printGrid();
-					}
-					else if (ZhenMinefieldUtilities.isValidTile(mines, i, j) /*&& !mines[i][j]*/){						
-						revealedTiles[i][j] = true;
-					}
-					
-				}
-			}			
-		}
-		else{
-				revealedTiles[row][col] = true;
 		}
 	}
 	
@@ -103,28 +79,8 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 			}
 		}
 	}
-	
-	private static String countNearby(boolean[][] mines, int row, int col) {
-		int count = 0;
-//		
-		//This method allows you to be most specific. For example, you only want north and east
-		if(mines[row][col]){
-			return "X";
-		}
-		else{
-			count += isValidAndTrue(mines, row+1, col);
-			count += isValidAndTrue(mines, row-1, col);
-			count += isValidAndTrue(mines, row, col-1);
-			count += isValidAndTrue(mines, row, col+1);
-			count += isValidAndTrue(mines, row+1, col-1);
-			count += isValidAndTrue(mines, row-1, col+1);
-			count += isValidAndTrue(mines, row+1, col+1);
-			count += isValidAndTrue(mines, row-1, col-1);
-			return "" + count;
-		}
-	}
 
-	private static int isValidAndTrue(boolean[][] mines, int row, int col) {
+	static int isValidAndTrue(boolean[][] mines, int row, int col) {
 		if (row >= 0 && col >= 0 && row < mines.length && col < mines[0].length && mines[row][col]){
 			return 1;
 		}
