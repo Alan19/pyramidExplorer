@@ -187,6 +187,7 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 		}
 		else if(input.toLowerCase().equals("seppuku")){
 			JaviyAhmedRoom.checkWin = true;
+			compHit = false;
 			System.out.println("You Lose, sorry I lied I don't know my way out.");
 			System.out.println("I've been trapped here for 10,000 years YOU ARE SO SCREWED!");
 			CaveExplorer.lose = true;
