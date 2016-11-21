@@ -23,7 +23,7 @@ public class CaveExplorer {
 		caves[1][3] = new EventRoom("This is where you found the map!", new GameStartEvent());
 		caves[1][4] = new EventRoom("You see a room with many tiles.", new ZhenJosephRoom(null));
 		caves[3][2] = new EventRoom("You see a room with many tiles.", new ZhenJosephRoom(null));
-		caves[3][4] = new EventRoom("This room looks a little different from all the others...", new EventEduardoAndSam(null));
+		caves[3][3] = new EventRoom("This room looks a little different", new EventEduardoAndSam(null));
 		caves[1][2].setConnection(CaveRoomPd8.WEST, caves[1][1], new Door());
 		caves[1][2].setConnection(CaveRoomPd8.SOUTH, caves[2][2], new Door());
 		caves[1][2].setConnection(CaveRoomPd8.EAST, caves[1][3], new Door());
@@ -31,6 +31,8 @@ public class CaveExplorer {
 		caves[2][3].setConnection(CaveRoomPd8.NORTH, caves[1][3], new Door());
 		caves[3][3].setConnection(CaveRoomPd8.NORTH, caves[2][3], new Door());
 		caves[3][2].setConnection(CaveRoomPd8.EAST, caves[3][3], new Door());
+		caves[4][2].setConnection(CaveRoomPd8.NORTH, caves[3][2], new Door());
+		caves[4][1].setConnection(CaveRoomPd8.EAST, caves[4][2], new Door());
 		inventory = new InventoryNockles();
 		currentRoom = caves[1][3];
 		currentRoom.enter();
@@ -40,6 +42,10 @@ public class CaveExplorer {
 
 	private static void startExploring() {
 		while (true) {
+			if(currentRoom == caves[4][0]){
+				print("You have escaped from the pyramid!");
+				break;
+			}
 			print(inventory.getDescription());
 			print(currentRoom.getDescription());
 			print("What would you like to do?");
