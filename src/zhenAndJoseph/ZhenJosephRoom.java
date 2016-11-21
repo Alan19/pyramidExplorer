@@ -26,7 +26,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 		plantMines(mines, 15);
 		for (int row = 0; row < tileValues.length; row++) {
 			for (int col = 0; col < tileValues[row].length; col++) {
-				tileValues[row][col] = ZhenMinefieldUtilities.countNearby(mines, row, col);
+				tileValues[row][col] = JosephMinefieldProccessing.countNearby(mines, row, col);
 			}
 		}
 		boolean isCheating = false;
