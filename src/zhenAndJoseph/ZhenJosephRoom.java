@@ -1,4 +1,8 @@
-package pyramidExplorer;
+package zhenAndJoseph;
+
+import pyramidExplorer.CaveExplorer;
+import pyramidExplorer.CaveRoomPd8;
+import pyramidExplorer.Playable;
 
 public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 	private static int fieldSize = 10;
@@ -26,23 +30,23 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 		String input = CaveExplorer.in.nextLine();
 		if(input.equals("I want to leave")){
 			CaveExplorer.print("Your outrageous input crashes the minefield. All the tiles are now revealed, allowing you to cross the room without any problems");
-			printPic(tileValues);
+			ZhenMinefieldUtilities.printPic(tileValues);
 			isCheating = true;
 		}
 		while(true){
 			if(isCheating) break;
-			if(allStandardTilesRevealed()){
+			if(ZhenMinefieldUtilities.allStandardTilesRevealed(mines, revealedTiles)){
 				System.out.println("The room and the tiles light up, showing you how to cross the room");
 				break;
 			}
 			CaveExplorer.print("Which row would you like to check?");
-			int row = getNonNegativeIntegerInput();				
+			int row = ZhenMinefieldUtilities.getNonNegativeIntegerInput(fieldSize);				
 			CaveExplorer.print("Which column would you like to check?");
-			int col = getNonNegativeIntegerInput();
+			int col = ZhenMinefieldUtilities.getNonNegativeIntegerInput(fieldSize);
 			
 			if(mines[row][col]){
 				CaveExplorer.print("The ground collapses!");
-				printPic(tileValues);
+				ZhenMinefieldUtilities.printPic(tileValues);
 				break;
 			}
 			else if (revealedTiles[row][col]) {
@@ -56,29 +60,19 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 		}
 	}
 
-	private boolean allStandardTilesRevealed() {
-		//Returns true if all non mine tiles are revealed
-		for (int row = 0; row < mines.length; row++) {
-			for (int col = 0; col < mines[row].length; col++) {
-				if(!revealedTiles[row][col] && !mines[row][col]){
-					return false;
-				}
-			}
-		}
-		return true;
-	}
+	
 
 	private void updateTiles(int row, int col) {
 //		System.out.println(tileValues[row][col]);
 		if(tileValues[row][col].equals("0")){
 			for (int i = row-1; i < row+2; i++) {
 				for (int j = col-1; j < col+2; j++) {
-					if(isValidTile(mines, i, j) && tileValues[i][j].equals("0") && !revealedTiles[i][j]){
+					if(ZhenMinefieldUtilities.isValidTile(mines, i, j) && tileValues[i][j].equals("0") && !revealedTiles[i][j]){
 						revealedTiles[i][j] = true;
 						updateTiles(i, j);
 //						printGrid();
 					}
-					else if (isValidTile(mines, i, j) /*&& !mines[i][j]*/){						
+					else if (ZhenMinefieldUtilities.isValidTile(mines, i, j) /*&& !mines[i][j]*/){						
 						revealedTiles[i][j] = true;
 					}
 					
@@ -104,31 +98,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 		
 	}
 	
-	private static int getNonNegativeIntegerInput() {
-		String integerString = CaveExplorer.in.nextLine();
-		boolean isInteger = false;
-		boolean isPositive = false;
-		int value = 0;
-		while(!isInteger || !isPositive){
-			try{
-				value = Integer.parseInt(integerString);
-				//will not continue if an error above is thrown
-				isInteger = true;//exits loop if entry is valid
-				if(value < 0 || value > fieldSize){
-					isPositive = false;
-					CaveExplorer.print("You must enter an non-negative integer.");
-					integerString = CaveExplorer.in.nextLine();
-				}
-				else{
-					isPositive = true;
-				}
-			}catch(NumberFormatException e){
-				CaveExplorer.print("You must enter an non-negative integer.");
-				integerString = CaveExplorer.in.nextLine();
-			}
-		}
-		return value;
-	}
+	
 	
 	private static void plantMines(boolean[][] mines, int numberOfMines) {
 		while(numberOfMines > 0){
@@ -170,21 +140,5 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 		}
 	}
 	
-	private static boolean isValidTile(boolean[][] mines, int row, int col) {
-		if(row >= 0 && col >= 0 && row < mines.length && col < mines[0].length){
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
 	
-	public static void printPic(String[][] pic){
-		for (String[] row : pic) {
-			for (String col : row) {
-				System.out.print(col);
-			}
-			System.out.println();
-		}
-	}
 }

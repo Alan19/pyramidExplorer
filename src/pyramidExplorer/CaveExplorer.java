@@ -3,6 +3,7 @@ package pyramidExplorer;
 import java.util.Scanner;
 
 import EduardoAndSam.EventEduardoAndSam;
+import zhenAndJoseph.ZhenJosephRoom;
 
 public class CaveExplorer {
 	public static CaveRoomPd8[][] caves;
