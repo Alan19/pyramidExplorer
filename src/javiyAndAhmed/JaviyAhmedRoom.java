@@ -8,14 +8,14 @@ import pyramidExplorer.Playable;
 
 public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 	
-	public static final String[] SEQUENCE_1 = {
+	private static final String[] SEQUENCE_1 = {
 			"<A silhouette of a person passes by you in this pyramid ",
 			"there's an ominous feeling that went down your spine.>",
 			"A deep voice speaks to you ",
 			"You're not around here please follow the shadows", 
 			"It will lead to your freedom."
 		};
-	public static final String[] SEQUENCE_2 = {
+	private static final String[] SEQUENCE_2 = {
 			"The silhouette disappears into the wall and NOW ALL THE DOORS SHUT DOWN ON YOU",
 			"WHO ARE YOU, why are you here?.",
 			"I am the King of Games everyone calls me The Pharaoh.",
@@ -23,20 +23,49 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 			"Will you please duel in my place?",
 			"If you win, I will show you the way out."
 	};
-		public static final String[] SEQUENCE_3 = {
+	private static final String[] SEQUENCE_3 = {
 				"You are in a foggy enviroment ",
 				"All your monsters must suvive and you must destory all of theirs",
 				"Please pick coordinates and win this duel!"
 		};
 
-	public static boolean checkWin = false;
+	private static boolean checkWin = false;
 	public static Scanner in;	
 
 	public JaviyAhmedRoom(String description) {
 		super(description);
 	}
 	
+	public static boolean isCheckWin() {
+		return checkWin;
+	}
+
+	public static void setCheckWin(boolean checkWin) {
+		JaviyAhmedRoom.checkWin = checkWin;
+	}
+
+	public static Scanner getIn() {
+		return in;
+	}
+
+	public static void setIn(Scanner in) {
+		JaviyAhmedRoom.in = in;
+	}
+
+	public static String[] getSequence1() {
+		return SEQUENCE_1;
+	}
+
+	public static String[] getSequence2() {
+		return SEQUENCE_2;
+	}
+
+	public static String[] getSequence3() {
+		return SEQUENCE_3;
+	}
+
 	public void play() {
+		while(true){
 		readSequence(SEQUENCE_1);
 		System.out.println("Would you like to follow the silhouette?");
 		while(CaveExplorer.in.nextLine().toLowerCase().indexOf("yes") < 0){
@@ -49,12 +78,14 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 		}
 		readSequence(SEQUENCE_3);
 		BoardGen.buildBoards();
-		print(BoardGen.playerBoardString);
+		print(BoardGen.getPlayerBoardString());
 		System.out.println();
-		print(BoardGen.compBoardString);
+		print(BoardGen.getCompBoardString());
 		
 		while(!checkWin){
 			PlayerAndAI.playGame();	
+		}
+		PlayerAndAI.playGame();
 		}
 	}
 	
@@ -69,7 +100,7 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 		}
 		if(amountOfShips==0){
 			checkWin = true;
-			if(intArray.equals(BoardGen.compBoard)){
+			if(intArray.equals(BoardGen.getCompBoard())){
 				System.out.println("You Won, sorry I lied I don't know my way out.");
 				System.out.println("I've been trapped here for 10,000 years YOU ARE SO SCREWED!");
 			}else{
