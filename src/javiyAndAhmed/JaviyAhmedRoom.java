@@ -106,7 +106,7 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 				System.out.println("I've been trapped here for 10,000 years YOU ARE SO SCREWED!");
 			}else{
 				System.out.println("You LOST, now you will never leave! Be banished to the Shodow Realm");
-				//CaveExplorer.lose = true;
+				CaveExplorer.lose = true;
 			}
 		}
 	}
