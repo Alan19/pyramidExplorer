@@ -71,4 +71,29 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 			return 0;
 		}
 	}
+	public static int getNonNegativeIntegerInput(int fieldSize) {
+		String integerString = CaveExplorer.in.nextLine();
+		boolean isInteger = false;
+		boolean isPositive = false;
+		int value = 0;
+		while(!isInteger || !isPositive){
+			try{
+				value = Integer.parseInt(integerString);
+				//will not continue if an error above is thrown
+				isInteger = true;//exits loop if entry is valid
+				if(value < 0 || value > fieldSize){
+					isPositive = false;
+					CaveExplorer.print("You must enter an non-negative integer.");
+					integerString = CaveExplorer.in.nextLine();
+				}
+				else{
+					isPositive = true;
+				}
+			}catch(NumberFormatException e){
+				CaveExplorer.print("You must enter an non-negative integer.");
+				integerString = CaveExplorer.in.nextLine();
+			}
+		}
+		return value;
+	}
 }

@@ -32,31 +32,7 @@ public class ZhenMinefieldUtilities {
 		}
 	}
 	
-	public static int getNonNegativeIntegerInput(int fieldSize) {
-		String integerString = CaveExplorer.in.nextLine();
-		boolean isInteger = false;
-		boolean isPositive = false;
-		int value = 0;
-		while(!isInteger || !isPositive){
-			try{
-				value = Integer.parseInt(integerString);
-				//will not continue if an error above is thrown
-				isInteger = true;//exits loop if entry is valid
-				if(value < 0 || value > fieldSize){
-					isPositive = false;
-					CaveExplorer.print("You must enter an non-negative integer.");
-					integerString = CaveExplorer.in.nextLine();
-				}
-				else{
-					isPositive = true;
-				}
-			}catch(NumberFormatException e){
-				CaveExplorer.print("You must enter an non-negative integer.");
-				integerString = CaveExplorer.in.nextLine();
-			}
-		}
-		return value;
-	}
+	
 	
 	public static boolean allStandardTilesRevealed(boolean[][] mines, boolean revealedTiles[][]) {
 		//Returns true if all non mine tiles are revealed
@@ -71,7 +47,6 @@ public class ZhenMinefieldUtilities {
 	}
 	
 	public static void playMinesweeper(boolean isCheating, boolean[][] mines, boolean[][] revealedTiles, int fieldSize, String[][] tileValues){
-		
 		while(true){
 			if(isCheating) break;
 			if(ZhenMinefieldUtilities.allStandardTilesRevealed(mines, revealedTiles)){
@@ -79,9 +54,9 @@ public class ZhenMinefieldUtilities {
 				break;
 			}
 			CaveExplorer.print("Which row would you like to check?");
-			int row = ZhenMinefieldUtilities.getNonNegativeIntegerInput(fieldSize);				
+			int row = ZhenJosephRoom.getNonNegativeIntegerInput(fieldSize);				
 			CaveExplorer.print("Which column would you like to check?");
-			int col = ZhenMinefieldUtilities.getNonNegativeIntegerInput(fieldSize);
+			int col = ZhenJosephRoom.getNonNegativeIntegerInput(fieldSize);
 			
 			if(mines[row][col]){
 				CaveExplorer.print("The ground collapses!");
