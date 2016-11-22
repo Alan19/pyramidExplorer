@@ -85,7 +85,6 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 		while(!checkWin){
 			PlayerAndAI.playGame();	
 		}
-		PlayerAndAI.playGame();
 		}
 	}
 	
@@ -100,12 +99,14 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 		}
 		if(amountOfShips==0){
 			checkWin = true;
+			PlayerAndAI.setCompHit(false);
+			PlayerAndAI.setPlayerHit(false);
 			if(intArray.equals(BoardGen.getCompBoard())){
 				System.out.println("You Won, sorry I lied I don't know my way out.");
 				System.out.println("I've been trapped here for 10,000 years YOU ARE SO SCREWED!");
 			}else{
 				System.out.println("You LOST, now you will never leave! Be banished to the Shodow Realm");
-				CaveExplorer.lose = true;
+				//CaveExplorer.lose = true;
 			}
 		}
 	}
