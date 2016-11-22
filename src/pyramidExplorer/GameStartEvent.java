@@ -5,7 +5,9 @@ public class GameStartEvent implements Playable {
 	public static final String[] SEQUENCE_1 = {
 		"<You wake up find yourself in a place you've never seen.",
 		"You find a map next to you.",
-		"It seems that you are in a pyramid and there is a way out not too far away from you!>"
+		"It seems that you are in a pyramid", 
+		"and there is a way out not too far away from you!", 
+		"You just have to find your way to the lower left corner without dying...>"
 	};
 	public GameStartEvent() {
 		// TODO Auto-generated constructor stub

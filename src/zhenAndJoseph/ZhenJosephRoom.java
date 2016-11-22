@@ -37,32 +37,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 			printPic(tileValues);
 			isCheating = true;
 		}
-		while(true){
-			if(isCheating) break;
-			if(ZhenMinefieldUtilities.allStandardTilesRevealed(mines, revealedTiles)){
-				System.out.println("The room and the tiles light up, showing you how to cross the room");
-				break;
-			}
-			CaveExplorer.print("Which row would you like to check?");
-			int row = ZhenMinefieldUtilities.getNonNegativeIntegerInput(fieldSize);				
-			CaveExplorer.print("Which column would you like to check?");
-			int col = ZhenMinefieldUtilities.getNonNegativeIntegerInput(fieldSize);
-			
-			if(mines[row][col]){
-				CaveExplorer.print("The ground collapses!");
-				printPic(tileValues);
-				CaveExplorer.lose = true;
-				break;
-			}
-			else if (revealedTiles[row][col]) {
-				CaveExplorer.print("That tile is already revealed");
-			}
-			else{
-				//Use update tiles on each of the tiles around it
-				JosephMinefieldProccessing.updateTiles(row, col, tileValues, mines, revealedTiles);
-				ZhenMinefieldUtilities.printGrid(mines, revealedTiles, tileValues);
-			}
-		}
+		ZhenMinefieldUtilities.playMinesweeper(isCheating, mines, revealedTiles, fieldSize, tileValues);
 	}
 	
 	public static void printPic(String[][] pic){
@@ -85,7 +60,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 		}
 	}
 
-	static int isValidAndTrue(boolean[][] mines, int row, int col) {
+	public static int isValidAndTrue(boolean[][] mines, int row, int col) {
 		if (row >= 0 && col >= 0 && row < mines.length && col < mines[0].length && mines[row][col]){
 			return 1;
 		}

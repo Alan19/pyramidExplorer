@@ -2,7 +2,7 @@ package zhenAndJoseph;
 
 public class JosephMinefieldProccessing {
 	
-	static void updateTiles(int row, int col, String[][] tileValues, boolean[][] mines, boolean[][] revealedTiles) {
+	public static void updateTiles(int row, int col, String[][] tileValues, boolean[][] mines, boolean[][] revealedTiles) {
 //		System.out.println(tileValues[row][col]);
 		if(tileValues[row][col].equals("0")){
 			for (int i = row-1; i < row+2; i++) {
@@ -24,7 +24,7 @@ public class JosephMinefieldProccessing {
 		}
 	}
 	
-	static String countNearby(boolean[][] mines, int row, int col) {
+	public static String countNearby(boolean[][] mines, int row, int col) {
 		int count = 0;
 //		
 		//This method allows you to be most specific. For example, you only want north and east
