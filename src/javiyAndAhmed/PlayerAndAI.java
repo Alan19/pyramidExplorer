@@ -167,6 +167,10 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 						}
 					}
 				}
+			JaviyAhmedRoom.setCheckWin(true);
+			playerHit = false;
+			compHit = false;
+			System.out.println("You wonned. You're now king of games. Unfortunately, the parliament of games holds all the power.");
 		}
 		else if(input.toLowerCase().equals("seppuku")){
 			JaviyAhmedRoom.setCheckWin(true);
