@@ -1,7 +1,6 @@
 package javiyAndAhmed;
 
 import java.util.Scanner;
-import java.util.spi.LocaleServiceProvider;
 
 import pyramidExplorer.CaveExplorer;
 
@@ -9,117 +8,29 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 
 	private static boolean playerHit;
 	private static boolean compHit;
-	private static boolean compConseqHit = false;
-	private static int[] coordinates = new int[2];
-	private static int counter=0;
+	private static boolean shipDestroyed = false;
+	private static int[][] compGuesses = new int[10][10]; //2 means hit, 1 means miss, 0 means not hit/miss
 	
+	public static boolean isPlayerHit() {
+		return playerHit;
+	}
+
+	public static void setPlayerHit(boolean playerHit) {
+		PlayerAndAI.playerHit = playerHit;
+	}
+
+	public static boolean isCompHit() {
+		return compHit;
+	}
+
+	public static void setCompHit(boolean compHit) {
+		PlayerAndAI.compHit = compHit;
+	}
+
 	public PlayerAndAI(String description) {
 		super(description);
 	}
 	
-	public static void compAction(){
-		int[] coordinate = new int[2];
-			if(compConseqHit==true){
-				coordinate[0] = runItDown()[0];
-				coordinate[1] = runItDown()[1];
-				checkBoard(coordinate,BoardGen.getPlayerBoard());
-			}else{
-				coordinate[0] = createValidCoords()[0];
-				coordinate[1] = createValidCoords()[1];
-				checkBoard(coordinate,BoardGen.getPlayerBoard());
-			}	
-	}
-
-	private static int[] createValidCoords(){
-		int[] coords = new int[2];
-		int randomOne = (int)(Math.random()*10);
-		int randomTwo = (int)(Math.random()*10);
-		while(BoardGen.getPlayerBoard()[randomOne][randomTwo]==2 || BoardGen.getPlayerBoard()[randomOne][randomTwo]==1){
-			randomOne = (int)(Math.random()*10);
-			randomTwo = (int)(Math.random()*10);
-		}
-		coords[0] = randomOne;
-		coords[1] = randomTwo;
-		return coords;
-	}
-	
-	private static int[] runItDown() {
-		int[] coords = new int[2];
-		int randomDirection = (int) (Math.random()*2); //0 for N/S, 1 for E/W
-		int randomSubDirection = (int) (Math.random()*2); //0 for N/E, 1 for S/W
-		if(randomDirection==0 && checkForOutOfBounds(coordinates[0]-1, coordinates[1]) && checkForOutOfBounds(coordinates[0]+1, coordinates[1])){
-			if(randomSubDirection == 0){
-				if(checkForOutOfBounds(coordinates[0]-1, coordinates[1])){
-					coords[0] = coordinates[0]-1;
-					coords[1] = coordinates[1];
-					counter++;
-				}
-				else{
-					coords[0] = createValidCoords()[0];
-					coords[1] = createValidCoords()[1];
-				}
-			}
-			else{
-				if(checkForOutOfBounds(coordinates[0]+1, coordinates[1])){
-					coords[0] = coordinates[0]+1;
-					coords[1] = coordinates[1];
-					counter++;
-				}
-				else{
-					coords[0] = createValidCoords()[0];
-					coords[1] = createValidCoords()[1];
-				}
-			}
-		}
-		else if(randomDirection==1 && checkForOutOfBounds(coordinates[0], coordinates[1]+1) && checkForOutOfBounds(coordinates[0], coordinates[1]-1)){
-			if(randomSubDirection == 1){
-				if(checkForOutOfBounds(coordinates[0], coordinates[1]+1)){
-					coords[0] = coordinates[0];
-					coords[1] = coordinates[1]+1;
-					counter++;
-				}else{
-					coords[0] = createValidCoords()[0];
-					coords[1] = createValidCoords()[1];
-				}
-			}
-			else{
-				if(checkForOutOfBounds(coordinates[0], coordinates[1]-1)){
-					coords[0] = coordinates[0];
-					coords[1] = coordinates[1]-1;
-					counter++;
-				}else{
-					coords[0] = createValidCoords()[0];
-					coords[1] = createValidCoords()[1];
-				}
-			}
-		}else{
-			counter=4;
-			coords[0] = createValidCoords()[0];
-			coords[1] = createValidCoords()[1];
-		}
-		return coords;
-	}
-	
-	private static boolean checkForOutOfBounds(int indexOne, int indexTwo){
-		if(indexOne >=0 && indexOne<BoardGen.getPlayerBoard()[0].length && indexTwo >=0 && indexTwo<BoardGen.getPlayerBoard()[0].length && (BoardGen.getPlayerBoard()[indexOne][indexTwo] !=2 || BoardGen.getPlayerBoard()[indexOne][indexTwo] !=1)){
-			return true;
-		}
-		return false;
-	}
-
-		//swords of revealing light
-	private static int[] getCoordinates(String input) {
-		String[] keysAlpha = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
-		String[] keysNum = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-		int[] coordinate = new int[2];
-		for(int row = 0;row<keysAlpha.length;row++){
-			if(input.substring(0,1).toLowerCase().equals(keysAlpha[row]))coordinate[0]=row;
-			for(int col = 0;col<keysNum.length;col++){
-				if(input.substring(1).equals(keysNum[col]))coordinate[1]=col;
-			}
-		}
-		return coordinate;
-	}
 	
 	private static void checkBoard(int[] coordinateChecker,int[][] intArray) {
 		if(intArray[coordinateChecker[0]][coordinateChecker[1]]==1 || intArray[coordinateChecker[0]][coordinateChecker[1]]==2){
@@ -128,19 +39,15 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 			intArray[coordinateChecker[0]][coordinateChecker[1]]=2;
 			System.out.println("Hit");
 			if(intArray.equals(BoardGen.getPlayerBoard())){
-				compConseqHit = true;
-				coordinates[0] = coordinateChecker[0];
-				coordinates[1] = coordinateChecker[1];
+				shipDestroyed = true;
+				compGuesses[coordinateChecker[0]][coordinateChecker[1]] = 2;
 			}
 		}else{
 			intArray[coordinateChecker[0]][coordinateChecker[1]]=1;
 			System.out.println("Missed");
 			if(intArray.equals(BoardGen.getPlayerBoard())){
 				compHit = false;
-				if(counter==4){
-					compConseqHit = false;
-					counter = 0;
-				}
+				compGuesses[coordinateChecker[0]][coordinateChecker[1]] = 1;
 			}else{
 				playerHit = false;
 			}
@@ -150,8 +57,7 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 	public static void playGame() {
 		compHit = true;
 		playerHit = true;
-		
-		//CHECK ANYTHING FROM HERE DOWN
+
 		while(playerHit){
 			in = new Scanner(System.in);
 			String input = in.nextLine();
@@ -171,6 +77,84 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 		
 	}
 	
+	public static void compAction(){
+		int[] coordinate = new int[2];
+			if(shipDestroyed==true){
+				coordinate[0] = destroyBordering()[0];
+				coordinate[1] = destroyBordering()[1];
+				checkBoard(coordinate,BoardGen.getPlayerBoard());
+			}else{
+				coordinate[0] = createValidCoords()[0];
+				coordinate[1] = createValidCoords()[1];
+				checkBoard(coordinate,BoardGen.getPlayerBoard());
+			}	
+	}
+	
+	private static int[] destroyBordering(){
+		int[] coords = new int[2];
+		for(int row=0; row<compGuesses.length; row++){
+			for(int col=0; col<compGuesses[0].length; col++){
+				if(compGuesses[row][col] == 2){
+					if(checkForOutOfBound(row-1, col)){
+						coords[0] = row-1;
+						coords[1] = col;
+						return coords;
+					}else if(checkForOutOfBound(row+1, col)){
+						coords[0] = row+1;
+						coords[1] = col;
+						return coords;
+					}else if(checkForOutOfBound(row, col-1)){
+						coords[0] = row;
+						coords[1] = col-1;
+						return coords;
+					}else if(checkForOutOfBound(row, col+1)){
+						coords[0] = row;
+						coords[1] = col+1;
+						return coords;
+					}
+				}
+			}
+		}
+		coords[0] = createValidCoords()[0];
+		coords[1] = createValidCoords()[1];
+		shipDestroyed = false;
+		return coords;
+	}
+
+	private static int[] createValidCoords(){
+		int[] coords = new int[2];
+		int randomOne = (int)(Math.random()*10);
+		int randomTwo = (int)(Math.random()*10);
+		while(BoardGen.getPlayerBoard()[randomOne][randomTwo]==2 || BoardGen.getPlayerBoard()[randomOne][randomTwo]==1){
+			randomOne = (int)(Math.random()*10);
+			randomTwo = (int)(Math.random()*10);
+		}
+		coords[0] = randomOne;
+		coords[1] = randomTwo;
+		return coords;
+	}
+
+	private static boolean checkForOutOfBound(int indexOne, int indexTwo){
+		if(indexOne >=0 && indexOne<compGuesses[0].length && indexTwo >=0 && indexTwo<compGuesses[0].length && (compGuesses[indexOne][indexTwo] !=2 && compGuesses[indexOne][indexTwo] !=1)){
+			return true;
+		}
+		return false;
+	}
+
+	private static int[] getCoordinates(String input) {
+		String[] keysAlpha = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
+		String[] keysNum = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+		int[] coordinate = new int[2];
+		for(int row = 0;row<keysAlpha.length;row++){
+			if(input.substring(0,1).toLowerCase().equals(keysAlpha[row]))coordinate[0]=row;
+			for(int col = 0;col<keysNum.length;col++){
+				if(input.substring(1).equals(keysNum[col]))coordinate[1]=col;
+			}
+		}
+		return coordinate;
+	}
+
+	
 	public static void interpretActions(String input) {
 		if(input.toLowerCase().equals("swords of revealing light")){
 			BoardGen.setReveal(true);
@@ -186,6 +170,7 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 		}
 		else if(input.toLowerCase().equals("seppuku")){
 			JaviyAhmedRoom.setCheckWin(true);
+			playerHit = false;
 			compHit = false;
 			System.out.println("You Lose, sorry I lied I don't know my way out.");
 			System.out.println("I've been trapped here for 10,000 years YOU ARE SO SCREWED!");
@@ -204,7 +189,7 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 
 	public static boolean isValid(String input) {
 		String[] keysAlpha = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
-		String[] keysNum = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+		String[] keysNum = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 		for (String key : keysAlpha) {
 			if(input.substring(0,1).toLowerCase().equals(key)||input.toLowerCase().equals("swords of revealing light")){
 				for(String keyNum : keysNum){
