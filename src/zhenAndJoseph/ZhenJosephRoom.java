@@ -18,7 +18,10 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 
 	} 
 	
-	private static final String[] SEQUENCE = {"You are trapped in this room!", "You see that the floor might crumble if you step on certain tiles.", "In order to know where to step, throw these rocks on the tiles to see where the floor can collaspe."};
+	private static final String[] SEQUENCE = {"You are trapped in this room!",
+		"You see that the floor might crumble if you step on certain tiles.",
+		"In order to know where to step, throw these rocks on the tiles",
+		"to see where the floor can collaspe."};
 	
 	public void play(){
 		//Sets the number of mines
@@ -30,7 +33,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 			}
 		}
 		boolean isCheating = false;
-		System.out.println("Are you ready to play?");
+		System.out.println("Are you planning on leaving?");
 		String input = CaveExplorer.in.nextLine();
 		if(input.equals("I want to leave")){
 			CaveExplorer.print("Your outrageous input crashes the minefield. All the tiles are now revealed, allowing you to cross the room without any problems");
