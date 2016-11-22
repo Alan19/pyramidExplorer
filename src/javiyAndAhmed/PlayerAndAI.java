@@ -13,7 +13,6 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 	private static int[] coordinates = new int[2];
 	private static int counter=0;
 	
-	
 	public PlayerAndAI(String description) {
 		super(description);
 	}
@@ -23,11 +22,11 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 			if(compConseqHit==true){
 				coordinate[0] = runItDown()[0];
 				coordinate[1] = runItDown()[1];
-				checkBoard(coordinate,BoardGen.playerBoard);
+				checkBoard(coordinate,BoardGen.getPlayerBoard());
 			}else{
 				coordinate[0] = createValidCoords()[0];
 				coordinate[1] = createValidCoords()[1];
-				checkBoard(coordinate,BoardGen.playerBoard);
+				checkBoard(coordinate,BoardGen.getPlayerBoard());
 			}	
 	}
 
@@ -35,7 +34,7 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 		int[] coords = new int[2];
 		int randomOne = (int)(Math.random()*10);
 		int randomTwo = (int)(Math.random()*10);
-		while(BoardGen.playerBoard[randomOne][randomTwo]==2 || BoardGen.playerBoard[randomOne][randomTwo]==1){
+		while(BoardGen.getPlayerBoard()[randomOne][randomTwo]==2 || BoardGen.getPlayerBoard()[randomOne][randomTwo]==1){
 			randomOne = (int)(Math.random()*10);
 			randomTwo = (int)(Math.random()*10);
 		}
@@ -102,7 +101,7 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 	}
 	
 	private static boolean checkForOutOfBounds(int indexOne, int indexTwo){
-		if(indexOne >=0 && indexOne<BoardGen.playerBoard[0].length && indexTwo >=0 && indexTwo<BoardGen.playerBoard[0].length && (BoardGen.playerBoard[indexOne][indexTwo] !=2 || BoardGen.playerBoard[indexOne][indexTwo] !=1)){
+		if(indexOne >=0 && indexOne<BoardGen.getPlayerBoard()[0].length && indexTwo >=0 && indexTwo<BoardGen.getPlayerBoard()[0].length && (BoardGen.getPlayerBoard()[indexOne][indexTwo] !=2 || BoardGen.getPlayerBoard()[indexOne][indexTwo] !=1)){
 			return true;
 		}
 		return false;
@@ -128,7 +127,7 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 		}else if(intArray[coordinateChecker[0]][coordinateChecker[1]]==3){
 			intArray[coordinateChecker[0]][coordinateChecker[1]]=2;
 			System.out.println("Hit");
-			if(intArray.equals(BoardGen.playerBoard)){
+			if(intArray.equals(BoardGen.getPlayerBoard())){
 				compConseqHit = true;
 				coordinates[0] = coordinateChecker[0];
 				coordinates[1] = coordinateChecker[1];
@@ -136,7 +135,7 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 		}else{
 			intArray[coordinateChecker[0]][coordinateChecker[1]]=1;
 			System.out.println("Missed");
-			if(intArray.equals(BoardGen.playerBoard)){
+			if(intArray.equals(BoardGen.getPlayerBoard())){
 				compHit = false;
 				if(counter==4){
 					compConseqHit = false;
@@ -157,36 +156,36 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 			in = new Scanner(System.in);
 			String input = in.nextLine();
 			interpretActions(input);
-			BoardGen.updateBoards(BoardGen.compBoard,BoardGen.compBoardString);
-			CheckWin(BoardGen.compBoard);
+			BoardGen.updateBoards(BoardGen.getCompBoard(),BoardGen.getCompBoardString());
+			CheckWin(BoardGen.getCompBoard());
 			System.out.println("Computer's Board");
-			print(BoardGen.compBoardString);
+			print(BoardGen.getCompBoardString());
 		}
 		while(compHit){
 			compAction();
-			BoardGen.updateBoards(BoardGen.playerBoard,BoardGen.playerBoardString);
-			CheckWin(BoardGen.playerBoard);
+			BoardGen.updateBoards(BoardGen.getPlayerBoard(),BoardGen.getPlayerBoardString());
+			CheckWin(BoardGen.getPlayerBoard());
 			System.out.println("PLayer's Board");
-			print(BoardGen.playerBoardString);
+			print(BoardGen.getPlayerBoardString());
 		}
 		
 	}
 	
 	public static void interpretActions(String input) {
 		if(input.toLowerCase().equals("swords of revealing light")){
-			BoardGen.reveal = true;
+			BoardGen.setReveal(true);
 			playerHit = false;
 		}else if(input.toLowerCase().equals("bomb")){
-			for(int row = 0;row<BoardGen.compBoard.length;row++){
-				for(int col = 0;col<BoardGen.compBoard[0].length;col++){
-						if(BoardGen.compBoard[row][col]==3){
-							BoardGen.compBoard[row][col] = 2;
+			for(int row = 0;row<BoardGen.getCompBoard().length;row++){
+				for(int col = 0;col<BoardGen.getCompBoard()[0].length;col++){
+						if(BoardGen.getCompBoard()[row][col]==3){
+							BoardGen.getCompBoard()[row][col] = 2;
 						}
 					}
 				}
 		}
 		else if(input.toLowerCase().equals("seppuku")){
-			JaviyAhmedRoom.checkWin = true;
+			JaviyAhmedRoom.setCheckWin(true);
 			compHit = false;
 			System.out.println("You Lose, sorry I lied I don't know my way out.");
 			System.out.println("I've been trapped here for 10,000 years YOU ARE SO SCREWED!");
@@ -198,11 +197,11 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 			input = CaveExplorer.in.nextLine();
 		}
 		
-		checkBoard(getCoordinates(input),BoardGen.compBoard);
+		checkBoard(getCoordinates(input),BoardGen.getCompBoard());
 		}
 	}
 
-	
+
 	public static boolean isValid(String input) {
 		String[] keysAlpha = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
 		String[] keysNum = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
