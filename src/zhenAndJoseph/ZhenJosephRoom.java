@@ -71,6 +71,4 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 			return 0;
 		}
 	}
-	
-	
 }

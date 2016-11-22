@@ -71,6 +71,7 @@ public class ZhenMinefieldUtilities {
 	}
 	
 	public static void playMinesweeper(boolean isCheating, boolean[][] mines, boolean[][] revealedTiles, int fieldSize, String[][] tileValues){
+		
 		while(true){
 			if(isCheating) break;
 			if(ZhenMinefieldUtilities.allStandardTilesRevealed(mines, revealedTiles)){
