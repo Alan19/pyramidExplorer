@@ -2,14 +2,70 @@ package javiyAndAhmed;
 
 public class BoardGen extends JaviyAhmedRoom {
 
-	public static int[][] playerBoard;
-	public static int[][] compBoard;
-	public static String[][] playerBoardString;
-	public static String[][] compBoardString;
+	private static int[][] playerBoard;
+	private static int[][] compBoard;
+	private static String[][] playerBoardString;
+	private static String[][] compBoardString;
 	private static int[] directions = {1,2}; //1 for NORTH/SOUTH and 2 for EAST/WEST
 	private static int[] boatArray = {1,2,3,4,5};
-	public static boolean reveal = false;
+	private static boolean reveal = false;
 	
+	public static int[][] getPlayerBoard() {
+		return playerBoard;
+	}
+
+	public static void setPlayerBoard(int[][] playerBoard) {
+		BoardGen.playerBoard = playerBoard;
+	}
+
+	public static int[][] getCompBoard() {
+		return compBoard;
+	}
+
+	public static void setCompBoard(int[][] compBoard) {
+		BoardGen.compBoard = compBoard;
+	}
+
+	public static String[][] getPlayerBoardString() {
+		return playerBoardString;
+	}
+
+	public static void setPlayerBoardString(String[][] playerBoardString) {
+		BoardGen.playerBoardString = playerBoardString;
+	}
+
+	public static String[][] getCompBoardString() {
+		return compBoardString;
+	}
+
+	public static void setCompBoardString(String[][] compBoardString) {
+		BoardGen.compBoardString = compBoardString;
+	}
+
+	public static int[] getDirections() {
+		return directions;
+	}
+
+	public static void setDirections(int[] directions) {
+		BoardGen.directions = directions;
+	}
+
+	public static int[] getBoatArray() {
+		return boatArray;
+	}
+
+	public static void setBoatArray(int[] boatArray) {
+		BoardGen.boatArray = boatArray;
+	}
+
+	public static boolean isReveal() {
+		return reveal;
+	}
+
+	public static void setReveal(boolean reveal) {
+		BoardGen.reveal = reveal;
+	}
+
 	public BoardGen(String description) {
 		super(description);
 		
