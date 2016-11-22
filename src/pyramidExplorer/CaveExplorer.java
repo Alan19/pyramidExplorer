@@ -24,19 +24,21 @@ public class CaveExplorer {
 		}
 		caves[1][3] = new EventRoom("This is where you found the map!", new GameStartEvent());
 		caves[2][3] = new EventRoom("You see a room with many tiles.", new ZhenJosephRoom(null));
-//		caves[3][2] = new EventRoom("You see a room with many tiles.", new ZhenJosephRoom(null));
 		caves[3][3] = new EventRoom("This room looks a little different", new EventEduardoAndSam(null));
 		caves[2][1] = new EventRoom("You are in a maze", new JaviyAhmedRoom(null));
+		caves[0][3].setConnection(CaveRoomPd8.NORTH, caves[1][3], new Door());
 		caves[1][2].setConnection(CaveRoomPd8.WEST, caves[1][1], new Door());
 		caves[1][2].setConnection(CaveRoomPd8.SOUTH, caves[2][2], new Door());
 		caves[1][2].setConnection(CaveRoomPd8.EAST, caves[1][3], new Door());
 		caves[1][4].setConnection(CaveRoomPd8.WEST, caves[1][3], new Door());
 		caves[2][1].setConnection(CaveRoomPd8.NORTH, caves[1][1], new Door());
 		caves[2][3].setConnection(CaveRoomPd8.NORTH, caves[1][3], new Door());
+		caves[3][1].setConnection(CaveRoomPd8.NORTH, caves[2][1], new Door());
 		caves[3][3].setConnection(CaveRoomPd8.NORTH, caves[2][3], new Door());
 		caves[3][2].setConnection(CaveRoomPd8.EAST, caves[3][3], new Door());
 		caves[4][2].setConnection(CaveRoomPd8.NORTH, caves[3][2], new Door());
 		caves[4][1].setConnection(CaveRoomPd8.EAST, caves[4][2], new Door());
+		caves[4][1].setConnection(CaveRoomPd8.NORTH, caves[3][1], new Door());
 		caves[4][0].setConnection(CaveRoomPd8.EAST, caves[4][1], new Door());
 		inventory = new InventoryNockles();
 		currentRoom = caves[1][3];

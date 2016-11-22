@@ -35,11 +35,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 		boolean isCheating = false;
 		System.out.println("Are you planning on leaving?");
 		String input = CaveExplorer.in.nextLine();
-		if(input.equals("I want to leave")){
-			CaveExplorer.print("Your outrageous input crashes the minefield. All the tiles are now revealed, allowing you to cross the room without any problems");
-			printPic(tileValues);
-			isCheating = true;
-		}
+		if(input.equals("I want to leave")) isCheating = true;
 		ZhenMinefieldUtilities.playMinesweeper(isCheating, mines, revealedTiles, fieldSize, tileValues);
 	}
 	
