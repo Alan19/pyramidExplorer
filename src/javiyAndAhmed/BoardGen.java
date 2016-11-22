@@ -9,6 +9,7 @@ public class BoardGen extends JaviyAhmedRoom {
 	private static int[] directions = {1,2}; //1 for NORTH/SOUTH and 2 for EAST/WEST
 	private static int[] boatArray = {1,2,3,4,5};
 	private static boolean reveal = false;
+	private static final String[] alphaLabels = {" A ", " B ", " C ", " D ", " E ", " F ", " G ", " H ", " I ", " J "};
 	
 	public static int[][] getPlayerBoard() {
 		return playerBoard;
@@ -75,8 +76,8 @@ public class BoardGen extends JaviyAhmedRoom {
 		playerBoard = new int[10][10];
 		compBoard = new int[10][10];
 		
-		playerBoardString = new String[10][10];
-		compBoardString = new String[10][10];
+		playerBoardString = new String[11][11];
+		compBoardString = new String[11][11];
 		
 		//For player. Initializes the board w/ boats
 		setPlayerBoard();
@@ -102,15 +103,22 @@ public class BoardGen extends JaviyAhmedRoom {
 	
 	//0 means nothing 1 means miss 2 means hit and 3 means theres a boat there
 	public static void updateBoards(int[][] intArray,String[][] stringArray) {
-		for(int row = 0;row<stringArray.length;row++){
-			for(int col = 0;col<stringArray[0].length;col++){
-				if(intArray[row][col] == 0 || intArray[row][col] == 4){
+		stringArray[0][0] = "   ";
+		for(int i=1; i<stringArray.length; i++){
+			stringArray[0][i] = " "+i+" ";
+		}
+		for(int i=1; i<stringArray.length; i++){
+			stringArray[i][0] = alphaLabels[i-1];
+		}
+		for(int row = 1;row<stringArray.length;row++){
+			for(int col = 1;col<stringArray[0].length;col++){
+				if(intArray[row-1][col-1] == 0 || intArray[row-1][col-1] == 4){
 					stringArray[row][col] = "[ ]";
-				}else if(intArray[row][col] == 1){
+				}else if(intArray[row-1][col-1] == 1){
 					stringArray[row][col] = "[O]";
-				}else if(intArray[row][col] == 2){
+				}else if(intArray[row-1][col-1] == 2){
 					stringArray[row][col] = "[X]";
-				}else if(intArray[row][col] == 3){
+				}else if(intArray[row-1][col-1] == 3){
 					if(stringArray.equals(playerBoardString)){
 						stringArray[row][col] = "[S]";
 					}else if(reveal==true){
