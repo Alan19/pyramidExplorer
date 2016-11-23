@@ -176,6 +176,8 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 			JaviyAhmedRoom.setCheckWin(true);
 			playerHit = false;
 			compHit = false;
+			System.out.println("You decide living life in the shadow realm can't be too bad.");
+			System.out.println("You're sure the food is nice and healthcare is probably free.");
 			System.out.println("You Lose, sorry I lied I don't know my way out.");
 			System.out.println("I've been trapped here for 10,000 years YOU ARE SO SCREWED!");
 			CaveExplorer.lose = true;
