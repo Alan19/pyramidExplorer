@@ -65,7 +65,6 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 	}
 
 	public void play() {
-		while(true){
 		readSequence(SEQUENCE_1);
 		System.out.println("Would you like to follow the silhouette?");
 		while(CaveExplorer.in.nextLine().toLowerCase().indexOf("yes") < 0){
@@ -84,7 +83,6 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 		
 		while(!checkWin){
 			PlayerAndAI.playGame();	
-		}
 		}
 	}
 	
