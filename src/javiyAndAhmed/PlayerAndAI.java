@@ -159,7 +159,7 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 		if(input.toLowerCase().equals("swords of revealing light")){
 			BoardGen.setReveal(true);
 			playerHit = false;
-		}else if(input.toLowerCase().equals("bomb")){
+		}else if(input.toLowerCase().equals("map hacks")){
 			for(int row = 0;row<BoardGen.getCompBoard().length;row++){
 				for(int col = 0;col<BoardGen.getCompBoard()[0].length;col++){
 						if(BoardGen.getCompBoard()[row][col]==3){
@@ -170,12 +170,14 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 			JaviyAhmedRoom.setCheckWin(true);
 			playerHit = false;
 			compHit = false;
-			System.out.println("You wonned. You're now king of games. Unfortunately, the parliament of games holds all the power.");
+			System.out.println("You realize you can just get up and peek at your opponent's board.");
 		}
 		else if(input.toLowerCase().equals("seppuku")){
 			JaviyAhmedRoom.setCheckWin(true);
 			playerHit = false;
 			compHit = false;
+			System.out.println("You decide living life in the shadow realm can't be too bad.");
+			System.out.println("You're sure the food is nice and healthcare is probably free.");
 			System.out.println("You Lose, sorry I lied I don't know my way out.");
 			System.out.println("I've been trapped here for 10,000 years YOU ARE SO SCREWED!");
 			CaveExplorer.lose = true;
@@ -197,7 +199,7 @@ public class PlayerAndAI extends JaviyAhmedRoom {
 		for (String key : keysAlpha) {
 			if(input.substring(0,1).toLowerCase().equals(key)||input.toLowerCase().equals("swords of revealing light")){
 				for(String keyNum : keysNum){
-					if(input.substring(1).equals(keyNum)||input.toLowerCase().equals("swords of revealing light")||input.toLowerCase().equals("bomb")||input.toLowerCase().equals("seppuku")) return true;
+					if(input.substring(1).equals(keyNum)||input.toLowerCase().equals("swords of revealing light")||input.toLowerCase().equals("map hacks")||input.toLowerCase().equals("seppuku")) return true;
 				}
 			}
 		}
