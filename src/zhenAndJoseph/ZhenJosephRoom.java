@@ -19,11 +19,17 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 	} 
 	
 	private static final String[] SEQUENCE = {"You are trapped in this room!",
-		"You see that the floor might crumble if you step on certain tiles.",
+		"You notice that the tiles have numbers that you cannot see as it is too dark",
+		"You also see some holes in the ground",
+		"However, they seem to light up when something is on top of them",
+		"You find a pile of rocks nearby.",
 		"In order to know where to step, throw these rocks on the tiles",
-		"to see where the floor can collaspe."};
+		"to see where the floor can collaspe.",
+		"On the wall, it says that if one manages to light up all the tiles around two weak tiles,",
+		"Another weak tile will light up."};
 	
 	public void play(){
+		int numberOfMines = 15;
 		//Sets the number of mines
 		GameStartEvent.readSequence(SEQUENCE);
 		plantMines(mines, 15);
@@ -36,7 +42,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 		System.out.println("Are you planning on leaving?");
 		String input = CaveExplorer.in.nextLine();
 		if(input.equals("I want to leave")) isCheating = true;
-		ZhenMinefieldUtilities.playMinesweeper(isCheating, mines, revealedTiles, fieldSize, tileValues);
+		ZhenMinefieldUtilities.playMinesweeper(isCheating, mines, revealedTiles, fieldSize, tileValues, numberOfMines);
 	}
 	
 	public static void printPic(String[][] pic){

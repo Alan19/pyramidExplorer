@@ -46,7 +46,7 @@ public class ZhenMinefieldUtilities {
 		return true;
 	}
 	
-	public static void playMinesweeper(boolean isCheating, boolean[][] mines, boolean[][] revealedTiles, int fieldSize, String[][] tileValues){
+	public static void playMinesweeper(boolean isCheating, boolean[][] mines, boolean[][] revealedTiles, int fieldSize, String[][] tileValues, int numberOfMines){
 		while(true){
 			if(isCheating){
 				CaveExplorer.print("Your refusal to play the game causes all of the tiles to light up, allowing you to cross the room");
@@ -65,6 +65,8 @@ public class ZhenMinefieldUtilities {
 			int col = ZhenJosephRoom.getNonNegativeIntegerInput(fieldSize);
 			
 			//Input processing
+			int[][] minePositions = new int[numberOfMines][2];
+			minePositions = getPosistionsOfMines(mines, minePositions);
 			if(mines[row][col]){
 				CaveExplorer.print("The ground collapses!");
 				revealAll(revealedTiles);
@@ -83,11 +85,34 @@ public class ZhenMinefieldUtilities {
 		}
 	}
 
+	private static int[][] getPosistionsOfMines(boolean[][] mines, int[][] minePositions) {
+		int position = 0;
+		for (int row = 0; row < minePositions.length; row++) {
+			for (int col = 0; col < minePositions[row].length; col++) {
+				if(mines[row][col]){
+					minePositions[position][0] = row;
+					minePositions[position][1] = col;
+					position++;
+				}
+			}
+		}
+		return minePositions;
+	}
+
 	private static void revealAll(boolean[][] revealedTiles) {
 		for (int row = 0; row < revealedTiles.length; row++) {
 			for (int col = 0; col < revealedTiles[row].length; col++) {
 				revealedTiles[row][col] = true;
 			}
 		}
+	}
+	
+	private static boolean check3x3(boolean[][] mines, boolean[][] revealedTiles, int row, int col){
+		for (int i = row-1; i < row+1; i++) {
+			for (int j = col-1; j < col+1; j++) {
+				if(!(isValidTile(mines, i, j) && !mines[i][j])) return false;
+			}
+		}
+		return true;
 	}
 }
