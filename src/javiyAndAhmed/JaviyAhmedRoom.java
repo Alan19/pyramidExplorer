@@ -19,14 +19,16 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 			"The silhouette disappears into the wall and NOW ALL THE DOORS SHUT DOWN ON YOU",
 			"WHO ARE YOU, why are you here?.",
 			"I am the King of Games everyone calls me The Pharaoh.",
-			"Please brave challenger duel and deafeat my enemy in the Shadow Realm",
+			"Please brave challenger duel and defeat my enemy in the Shadow Realm",
 			"Will you please duel in my place?",
 			"If you win, I will show you the way out."
 	};
 	private static final String[] SEQUENCE_3 = {
 				"You are in a foggy enviroment ",
-				"All your monsters must suvive and you must destory all of theirs",
-				"Please pick coordinates and win this duel!"
+				"The Pharoah seems to be a Hasbro fan and summons two 10x10 boards.",
+				"5 stone monster figures of varying lengths materialize out of thin air.",
+				"All your monsters must survive and you must destroy all of theirs",
+				"Please pick your coordinates well and win this duel!"
 		};
 
 	private static boolean checkWin = false;
@@ -100,8 +102,9 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 			PlayerAndAI.setCompHit(false);
 			PlayerAndAI.setPlayerHit(false);
 			if(intArray.equals(BoardGen.getCompBoard())){
-				System.out.println("You Won, sorry I lied I don't know my way out.");
+				System.out.println("You Wonned, sorry I lied I don't know my way out.");
 				System.out.println("I've been trapped here for 10,000 years YOU ARE SO SCREWED!");
+				System.out.println("At least now you're now king of games. Unfortunately, the parliament of games holds all the power.");
 			}else{
 				System.out.println("You LOST, now you will never leave! Be banished to the Shodow Realm");
 				CaveExplorer.lose = true;
@@ -128,7 +131,5 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 			CaveExplorer.print(s);
 			
 		}
-		CaveExplorer.print("--- press enter ---");
-		
 	}
 }
