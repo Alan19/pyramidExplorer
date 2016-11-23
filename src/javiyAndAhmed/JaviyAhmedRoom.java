@@ -104,7 +104,8 @@ public class JaviyAhmedRoom extends CaveRoomPd8 implements Playable{
 			if(intArray.equals(BoardGen.getCompBoard())){
 				System.out.println("You Wonned, sorry I lied I don't know my way out.");
 				System.out.println("I've been trapped here for 10,000 years YOU ARE SO SCREWED!");
-				System.out.println("At least now you're now king of games. Unfortunately, the parliament of games holds all the power.");
+				System.out.println("At least now you're now king of games.");
+				System.out.println("Unfortunately, the parliament of games holds all the power.");
 			}else{
 				System.out.println("You LOST, now you will never leave! Be banished to the Shodow Realm");
 				CaveExplorer.lose = true;
