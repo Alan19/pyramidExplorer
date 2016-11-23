@@ -25,8 +25,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 		"You find a pile of rocks nearby.",
 		"In order to know where to step, throw these rocks on the tiles",
 		"to see where the floor can collaspe.",
-		"On the wall, it says that if one manages to light up all the tiles around two weak tiles,",
-		"Another weak tile will light up."};
+		"On the wall, it says that for when three stones are thrown, all the surrounding tiles will be revealed."};
 	
 	public void play(){
 		int numberOfMines = 15;
@@ -42,7 +41,7 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 		System.out.println("Are you planning on leaving?");
 		String input = CaveExplorer.in.nextLine();
 		if(input.equals("I want to leave")) isCheating = true;
-		ZhenMinefieldUtilities.playMinesweeper(isCheating, mines, revealedTiles, fieldSize, tileValues, numberOfMines);
+		ZhenMinefieldUtilities.playMinesweeper(isCheating, mines, revealedTiles, fieldSize, tileValues);
 	}
 	
 	public static void printPic(String[][] pic){
