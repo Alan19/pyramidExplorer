@@ -28,7 +28,6 @@ public class ZhenJosephRoom extends CaveRoomPd8 implements Playable{
 		"On the wall, it says that for when three stones are thrown, all the surrounding tiles will be revealed."};
 	
 	public void play(){
-		int numberOfMines = 15;
 		//Sets the number of mines
 		GameStartEvent.readSequence(SEQUENCE);
 		plantMines(mines, 15);
