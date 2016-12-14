@@ -34,7 +34,7 @@ public class EventEduardoAndSam extends CaveRoomPd8 implements Playable {
 	
 	//
 	private static void printSquare(int[][] magicSquare) {
-		String[][] toPrint = new String[7][7];
+		String[][] toPrint = new String[8][8];
 		for(int i = 0; i < toPrint.length; i++){
 			for(int j = 0; j < toPrint[i].length; j++){
 				toPrint[i][j] = " ";
@@ -92,7 +92,7 @@ public class EventEduardoAndSam extends CaveRoomPd8 implements Playable {
 				}
 			}
 		}
-		if(squaresFilled == 9){
+		if(squaresFilled == 16){
 			return false;
 		}
 		return true;

@@ -10,7 +10,7 @@ public class SolveMagicSquareSam {
 			for (int j = 0; j < magicSquare[0].length; j++){
 				totalNum = totalNum + magicSquare[i][j];
 			}
-			if (totalNum != 15){
+			if (totalNum != 34){
 				return false;
 			}
 		}
@@ -19,7 +19,7 @@ public class SolveMagicSquareSam {
 			for (int j = 0; j < magicSquare.length; j++){
 				totalNum = totalNum + magicSquare[i][j];
 			}
-			if (totalNum != 15){
+			if (totalNum != 34){
 				return false;
 			}
 		}
